@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dc5a7da8ef2a7a448983cd4f4bc2aa1, type: 3}
+  m_Name: ComponentData1
+  m_EditorClassIdentifier: Assembly-CSharp::ComponentData
+  componentName: Component1
+  shape:
+  - cols: 0101
+  - cols: 0101
+  sprite: {fileID: -1854253849714482944, guid: 78f1cbdd67ae6b447a8e68e3cb9a27d0, type: 3}
