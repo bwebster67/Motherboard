@@ -11,4 +11,8 @@ public class ComponentUIData : ScriptableObject
     public List<ComponentShapeRow> shape = new List<ComponentShapeRow>();
     [SerializeField]
     public Sprite sprite;
+    [SerializeField]
+    public int width;
+    [SerializeField]
+    public int height;
 }

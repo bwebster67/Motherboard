@@ -8,8 +8,8 @@ public class MotherboardGrid : MonoBehaviour
 {
     public ComponentInstance[,] grid;
     public GridUIManager gridUIManager;
-    public int gridWidth = 4;
-    public int gridHeight = 4;
+    public int gridWidth = 6;
+    public int gridHeight = 3;
     // private Dictionary<ComponentInstance, Vector2Int> gridComponents;
     public ComponentUICreator componentUICreator;
     public PlayerWeaponManager playerWeaponManager;
@@ -35,19 +35,13 @@ public class MotherboardGrid : MonoBehaviour
         Debug.Log(GridString());
 
         // Adding to Grid UI 
+
+        // Getting the weapon controller, temporarily stored in the game object
         WeaponComponentInstance testComponentInstance = testWeaponController.GetComponent<WeaponComponentInstance>();
         PlaceComponent(component: testComponentInstance, position: new Vector2Int(0, 0));
 
         // Adding weapon functionality
         playerWeaponManager.AddWeapon(testWeaponController);
-
-        // ComponentInstance testComponent1 = new ComponentInstance();
-        // testComponent1.UIData = componentCreator.GetComponent(1);
-        // PlaceComponent(component: testComponent1, position: new Vector2Int(0, 2));
-
-        // ComponentInstance testComponent2 = new ComponentInstance();
-        // testComponent2.UIData = componentCreator.GetComponent(2);
-        // PlaceComponent(component: testComponent2, position: new Vector2Int(2, 0));
 
         Debug.Log(GridString());
     }
@@ -64,7 +58,14 @@ public class MotherboardGrid : MonoBehaviour
         {
             for (int col = 0; col < gridWidth; col++)
             {
-                output += $"[{grid[row, col]}] ";
+                if (grid[row, col])
+                {
+                    output += $"[x] ";
+                }
+                else
+                {
+                    output += $"[  ] ";
+                }
             }
             output += "\n";
         }
@@ -133,12 +134,12 @@ public class MotherboardGrid : MonoBehaviour
                     Vector2Int newPos = position + new Vector2Int(row, col);
                     grid[newPos.x, newPos.y] = component;
 
-                    // Debug.Log($"Position of component segment [{row}, {col}] in grid is [{newPos.x},{newPos.y}].");
+                    Debug.Log($"Position of component segment [{row}, {col}] in grid is [{newPos.x},{newPos.y}].");
                 }
             }
         }
 
-        gridUIManager.UpdateGridUI();
+        // gridUIManager.UpdateGridUI();
 
     }
 
