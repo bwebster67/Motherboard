@@ -38,10 +38,17 @@ public class MotherboardGrid : MonoBehaviour
 
         // Getting the weapon controller, temporarily stored in the game object
         WeaponComponentInstance testComponentInstance = testWeaponController.GetComponent<WeaponComponentInstance>();
-        PlaceComponent(component: testComponentInstance, position: new Vector2Int(0, 0));
+        
+        // Backend
+        PlaceComponent(component: testComponentInstance, position: new Vector2Int(1, 1));
+        // UI (moved to the end of PlaceComponent)
+        // gridUIManager.PlaceComponentUI(testComponentInstance.UIData, gridCoords: new Vector2Int(0, 0));
+
 
         // Adding weapon functionality
-        playerWeaponManager.AddWeapon(testWeaponController);
+
+        // just commented out so that it stops logging stuff
+        // playerWeaponManager.AddWeapon(testWeaponController);
 
         Debug.Log(GridString());
     }
@@ -81,6 +88,12 @@ public class MotherboardGrid : MonoBehaviour
         int componentRows = component.UIData.shape.Count;
         int componentCols = component.UIData.shape[0].cols.Count;
 
+        if ((position.x < 0) || (position.y < 0) || (position.x >= gridHeight) || (position.y >= gridWidth))
+        {
+            Debug.LogError($"Cannot place component at position {position}.");
+            return false;
+        }
+
         // Populating componentSegmentPositions
         for (int row = 0; row < componentRows; row++)
         {
@@ -107,12 +120,10 @@ public class MotherboardGrid : MonoBehaviour
             }
         }
 
-
-
         return true;
     }
 
-    void PlaceComponent(ComponentInstance component, Vector2Int position)
+    public bool PlaceComponent(ComponentInstance component, Vector2Int position)
     // places the passed component at the passed location
     {
         List<ComponentShapeRow> componentShape = component.UIData.shape;
@@ -122,8 +133,9 @@ public class MotherboardGrid : MonoBehaviour
         if (!CanPlaceComponent(component, position))
         {
             Debug.LogError($"Cannot place component at position {position}.");
-            return;
+            return false;
         }
+        component.anchorPosition = position;
         
         for (int row = 0; row < componentRows; row++)
         {
@@ -134,12 +146,47 @@ public class MotherboardGrid : MonoBehaviour
                     Vector2Int newPos = position + new Vector2Int(row, col);
                     grid[newPos.x, newPos.y] = component;
 
-                    Debug.Log($"Position of component segment [{row}, {col}] in grid is [{newPos.x},{newPos.y}].");
+                    // Debug.Log($"Position of component segment [{row}, {col}] in grid is [{newPos.x},{newPos.y}].");
                 }
             }
         }
 
-        // gridUIManager.UpdateGridUI();
+        // Place in UI
+        gridUIManager.PlaceComponentUI(component.UIData, gridCoords: position);
+        
+        Debug.Log($"Component placed at ({position.x}, {position.y})");
+        Debug.Log(GridString());
+        return true;
+    }
+
+    public bool RemoveComponent(Vector2Int anchorPosition)
+    {
+        ComponentInstance component = grid[anchorPosition.x, anchorPosition.y];
+        if (component == null)
+        {
+            Debug.LogError($"No component to remove at anchor ({anchorPosition.x}, {anchorPosition.y})");
+            return false;
+        }
+
+        List<ComponentShapeRow> componentShape = component.UIData.shape;
+        int componentRows = component.UIData.shape.Count;
+        int componentCols = component.UIData.shape[0].cols.Count;
+
+        for (int row = 0; row < componentRows; row++)
+        {
+            for (int col = 0; col < componentCols; col++)
+            {
+                if (componentShape[row].cols[col])
+                {
+                    grid[anchorPosition.x + row, anchorPosition.y + col] = null;
+                }
+            }
+        }
+
+        gridUIManager.RemoveComponentUI(component);
+        Debug.Log($"Component Removed at ({anchorPosition.x}, {anchorPosition.y})");
+        Debug.Log(GridString());
+        return true;
 
     }
 
