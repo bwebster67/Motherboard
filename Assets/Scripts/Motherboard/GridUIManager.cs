@@ -117,7 +117,7 @@ public class GridUIManager : MonoBehaviour
         GameObject gridComponentUIGO = Instantiate(original: emptyComponentUI, parent: gridComponentSprites.transform);
         gridComponentUIGO.GetComponent<Image>().sprite = componentUIData.sprite;
         GridComponentUI gridComponentUI = gridComponentUIGO.GetComponent<GridComponentUI>();
-        gridComponentUI.heightInSlots = componentUIData.width;
+        gridComponentUI.heightInSlots = componentUIData.height;
         gridComponentUI.widthInSlots = componentUIData.width;
 
         gridComponentUI.gridAnchorCoords = gridCoords;

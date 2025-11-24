@@ -40,7 +40,7 @@ public class MotherboardGrid : MonoBehaviour
         WeaponComponentInstance testComponentInstance = testWeaponController.GetComponent<WeaponComponentInstance>();
         
         // Backend
-        PlaceComponent(component: testComponentInstance, position: new Vector2Int(1, 1));
+        PlaceComponent(component: testComponentInstance, position: new Vector2Int(0, 0));
         // UI (moved to the end of PlaceComponent)
         // gridUIManager.PlaceComponentUI(testComponentInstance.UIData, gridCoords: new Vector2Int(0, 0));
 

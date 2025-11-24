@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7a22018e35c937f41b86db3aad47d29e
+guid: d953e146cda63a0479656a9c704b18af
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7072178864025126732
-    second: motherboard_0
+      213: -4730174593966364398
+    second: MotherboardSelectionWindow_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: motherboard_0
+      name: MotherboardSelectionWindow_0
       rect:
         serializedVersion: 2
-        x: 103
-        y: 285
-        width: 1471
-        height: 808
+        x: 0
+        y: 0
+        width: 704
+        height: 1408
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c474e32f43d652260800000000000000
-      internalID: 7072178864025126732
+      spriteID: 219ae01b44b0b5eb0800000000000000
+      internalID: -4730174593966364398
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      motherboard_0: 7072178864025126732
+      MotherboardSelectionWindow_0: -4730174593966364398
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
