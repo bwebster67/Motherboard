@@ -17,9 +17,4 @@ public abstract class ComponentInstance : MonoBehaviour
     {
     }
 
-    // public Vector2Int GetAnchorPos()
-    // {
-    //     return new Vector2Int();
-    // } 
-
 }
