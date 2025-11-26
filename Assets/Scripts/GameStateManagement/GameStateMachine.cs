@@ -5,6 +5,12 @@ public class GameStateMachine : MonoBehaviour
 {
     GameState currentState = null;
     public Canvas motherboardCanvas;
+    public MotherboardGrid motherboardGrid;
+
+    void Awake()
+    {
+        if (motherboardGrid == null) motherboardGrid = FindAnyObjectByType<MotherboardGrid>();
+    }
 
     public void ChangeGameState(GameState state)
     {

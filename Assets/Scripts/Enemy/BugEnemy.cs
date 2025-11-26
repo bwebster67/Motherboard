@@ -1,4 +1,3 @@
-using UnityEditor.Callbacks;
 using UnityEngine; 
 
 public class BugEnemy : Enemy , IEnemyMoveBehavior
@@ -14,11 +13,20 @@ public class BugEnemy : Enemy , IEnemyMoveBehavior
         Move(rigidbody2D, player.transform, enemyData.baseMoveSpeed);
     }
 
+    public override float TakeDamage(float amount)
+    {
+        return base.TakeDamage(amount);
+    }
+
+    protected override void Die()
+    {
+        base.Die();
+    }
+
     public void Move(Rigidbody2D rb, Transform target, float speed)
     {
         if (target != null)
         {
-            // rigidbody2D.transform.LookAt(player.transform);
             Vector2 direction = (target.position - rb.transform.position).normalized;
             rb.MovePosition(rb.position + direction * speed* Time.fixedDeltaTime);
         }  
@@ -28,8 +36,4 @@ public class BugEnemy : Enemy , IEnemyMoveBehavior
         else if (target.position.x >= rb.transform.position.x) { rb.transform.rotation = new Quaternion(0, 0, 0, 0); }
     }
 
-    protected override void Die()
-    {
-        base.Die();
-    }
 }

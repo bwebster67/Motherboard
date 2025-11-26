@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class PlayerWeaponManager : MonoBehaviour
+public class PlayerComponentManager : MonoBehaviour
 {
-    public List<WeaponComponentInstance> activeWeapons = new List<WeaponComponentInstance>();
+    public List<GameObject> activeComponentControllerPrefabs = new List<GameObject>();
 
     void Start()
     {
@@ -18,7 +18,7 @@ public class PlayerWeaponManager : MonoBehaviour
             this.transform
         );
 
-        activeWeapons.Add(weaponController.GetComponent<WeaponComponentInstance>());
+        activeComponentControllerPrefabs.Add(weaponController);
     }
     
 }

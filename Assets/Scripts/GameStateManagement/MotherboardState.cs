@@ -10,6 +10,7 @@ public class MotherboardState : GameState
     public override void ExitState()
     {
         base.ExitState();
+        context.motherboardGrid.ReloadMotherboard();
         context.motherboardCanvas.gameObject.SetActive(false);
     }
     public override void Tick()

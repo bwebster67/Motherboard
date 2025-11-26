@@ -31850,6 +31850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameStateMachine
   motherboardCanvas: {fileID: 1907668782}
+  motherboardGrid: {fileID: 0}
 --- !u!1 &204181615
 GameObject:
   m_ObjectHideFlags: 0
@@ -32596,7 +32597,7 @@ GameObject:
   - component: {fileID: 1026351752}
   - component: {fileID: 1026351753}
   m_Layer: 0
-  m_Name: PlayerWeaponManager
+  m_Name: PlayerComponentManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32629,7 +32630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b37b2d7f5c31ff408d6d88f576c1ede, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  activeWeapons: []
+  activeComponentControllerPrefabs: []
 --- !u!1 &1235121920
 GameObject:
   m_ObjectHideFlags: 0
@@ -32786,7 +32787,7 @@ MonoBehaviour:
   gridWidth: 6
   gridHeight: 3
   componentUICreator: {fileID: 1024981453}
-  playerWeaponManager: {fileID: 1026351753}
+  playerComponentManager: {fileID: 1026351753}
   testWeaponController: {fileID: 5106084600261175665, guid: d95c739170750c14eae5de613c6b6f98, type: 3}
 --- !u!4 &1877764257
 Transform:
@@ -32821,7 +32822,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1907668780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33052,7 +33053,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7563486271656428258, guid: 738ec637cb4e5d94d85e201f1d24c033, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

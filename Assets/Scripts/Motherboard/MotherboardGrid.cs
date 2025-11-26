@@ -7,18 +7,19 @@ using UnityEngine.UIElements;
 public class MotherboardGrid : MonoBehaviour
 {
     public ComponentInstance[,] grid;
+    private List<Vector2Int> gridComponentAnchors;
     public GridUIManager gridUIManager;
     public int gridWidth = 6;
     public int gridHeight = 3;
-    // private Dictionary<ComponentInstance, Vector2Int> gridComponents;
     public ComponentUICreator componentUICreator;
-    public PlayerWeaponManager playerWeaponManager;
+    public PlayerComponentManager playerComponentManager;
     public GameObject testWeaponController;
 
 
     void Start()
     {
         grid = new ComponentInstance[gridHeight, gridWidth];
+        gridComponentAnchors = new List<Vector2Int>(); 
 
         // Making grid start null
         for (int row = 0; row < gridHeight; row++)
@@ -34,21 +35,25 @@ public class MotherboardGrid : MonoBehaviour
 
         Debug.Log(GridString());
 
-        // Adding to Grid UI 
+
+        // Components must be passed around (at least for now) by the weaponController gameObject
+        // I added gridComponentAnchors, but with PlayerComponentManager that might not be necessary right now?
+
+
+        // Flow for adding a weapon component --------
 
         // Getting the weapon controller, temporarily stored in the game object
         WeaponComponentInstance testComponentInstance = testWeaponController.GetComponent<WeaponComponentInstance>();
         
-        // Backend
+        // Backend and UI
         PlaceComponent(component: testComponentInstance, position: new Vector2Int(0, 0));
-        // UI (moved to the end of PlaceComponent)
-        // gridUIManager.PlaceComponentUI(testComponentInstance.UIData, gridCoords: new Vector2Int(0, 0));
-
 
         // Adding weapon functionality
+        playerComponentManager.AddWeapon(testWeaponController);
 
-        // just commented out so that it stops logging stuff
-        // playerWeaponManager.AddWeapon(testWeaponController);
+        // --------------------------------------------
+
+        ReloadMotherboard();
 
         Debug.Log(GridString());
     }
@@ -78,6 +83,20 @@ public class MotherboardGrid : MonoBehaviour
         }
 
         return output;
+    }
+
+    public void ReloadMotherboard()
+    {
+        // NOT USEFUL YET
+        // Takes the components stored in the motherboardGrid and gives the player their functionality
+        Debug.Log("Reloading Motherboard.");
+
+        foreach (Vector2Int anchor in gridComponentAnchors)
+        {
+            // add component functionality
+            ComponentInstance componentInstance = grid[anchor.x, anchor.y];
+
+        }
     }
 
     bool CanPlaceComponent(ComponentInstance component, Vector2Int position)
@@ -153,6 +172,9 @@ public class MotherboardGrid : MonoBehaviour
 
         // Place in UI
         gridUIManager.PlaceComponentUI(component.UIData, gridCoords: position);
+
+        // Save in gridComponentAnchors
+        gridComponentAnchors.Add(position);
         
         Debug.Log($"Component placed at ({position.x}, {position.y})");
         Debug.Log(GridString());
@@ -183,7 +205,12 @@ public class MotherboardGrid : MonoBehaviour
             }
         }
 
+        // Remove from UI
         gridUIManager.RemoveComponentUI(component);
+
+        // Remove from gridComponentAnchors
+        gridComponentAnchors.Remove(anchorPosition);
+
         Debug.Log($"Component Removed at ({anchorPosition.x}, {anchorPosition.y})");
         Debug.Log(GridString());
         return true;
