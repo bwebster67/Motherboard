@@ -123,6 +123,8 @@ public class GridUIManager : MonoBehaviour
         gridComponentUI.gridAnchorCoords = gridCoords;
         RectTransform anchorSlotRectTransform = gridUISlots[gridCoords.x, gridCoords.y].GetComponent<RectTransform>(); 
         RectTransform gridComponentUIRectTransform = gridComponentUI.GetComponent<RectTransform>();
+
+        // cant get the anchorSlotRectTransform.position here when it disabled at start...
         gridComponentUIRectTransform.position = anchorSlotRectTransform.position;
         GridLayoutGroup gridLayoutGroup = gridUI.GetComponent<GridLayoutGroup>();
 
