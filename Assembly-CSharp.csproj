@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\ComponentFactory.cs" />
+    <Compile Include="Assets\Scripts\PlayerLevelManager.cs" />
     <Compile Include="Assets\Scripts\Enemy\IEnemyMoveBehavior.cs" />
     <Compile Include="Assets\Scripts\Components\ByteBlast\ByteBlastComponent.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IHealable.cs" />

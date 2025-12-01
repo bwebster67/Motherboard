@@ -15,9 +15,9 @@ public class PlayingState : GameState
         base.Tick();
 
         // For testing only
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            context.ChangeGameState(new MotherboardState(context));
-        }
+        // if (Input.GetKeyDown(KeyCode.Escape))
+        // {
+        //     context.ChangeGameState(new MotherboardState(context));
+        // }
     }
 }

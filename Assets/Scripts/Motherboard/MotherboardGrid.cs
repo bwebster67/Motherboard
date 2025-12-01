@@ -38,6 +38,7 @@ public class MotherboardGrid : MonoBehaviour
 
         // Components must be passed around (at least for now) by the weaponController gameObject
         // I added gridComponentAnchors, but with PlayerComponentManager that might not be necessary right now?
+        componentFactory.GetComponentChoices();
 
         GameObject startingComponent = componentFactory.GetComponent(0);
         AddWeaponEverywhere(startingComponent);
