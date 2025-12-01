@@ -17,6 +17,7 @@ public class ByteBlastComponent : WeaponComponentInstance
     override public void Attack()
     {
         base.Attack();
+        // Instantiate(weaponData.prefab);
         Debug.Log("ByteBlast Attack!!! 01010101 01010101");
     }
 }

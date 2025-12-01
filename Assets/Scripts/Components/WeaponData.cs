@@ -9,6 +9,6 @@ public class WeaponData : ScriptableObject
     public float damage;
     public float speed;
     public float cooldownDuration;
-    public int pierce;
+    // public int pierce;
     public int projectileCount;
 }

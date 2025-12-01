@@ -11,7 +11,7 @@ public class MotherboardGrid : MonoBehaviour
     public GridUIManager gridUIManager;
     public int gridWidth = 6;
     public int gridHeight = 3;
-    public ComponentUICreator componentUICreator;
+    public ComponentFactory componentFactory;
     public PlayerComponentManager playerComponentManager;
     public GameObject testWeaponController;
 
@@ -39,28 +39,28 @@ public class MotherboardGrid : MonoBehaviour
         // Components must be passed around (at least for now) by the weaponController gameObject
         // I added gridComponentAnchors, but with PlayerComponentManager that might not be necessary right now?
 
-
-        // Flow for adding a weapon component --------
-
-        // Getting the weapon controller, temporarily stored in the game object
-        WeaponComponentInstance testComponentInstance = testWeaponController.GetComponent<WeaponComponentInstance>();
-        
-        // Backend and UI
-        PlaceComponent(component: testComponentInstance, position: new Vector2Int(0, 0));
-
-        // Adding weapon functionality
-        playerComponentManager.AddWeapon(testWeaponController);
-
-        // --------------------------------------------
+        GameObject startingComponent = componentFactory.GetComponent(0);
+        AddWeaponEverywhere(startingComponent);
 
         ReloadMotherboard();
 
         Debug.Log(GridString());
     }
 
-    void Update()
+    void AddWeaponEverywhere(GameObject weaponController)
     {
+        // Flow for adding a weapon component --------
 
+        // Getting the weapon controller, temporarily stored in the game object
+        WeaponComponentInstance weaponComponentInstance = weaponController.GetComponent<WeaponComponentInstance>();
+        
+        // Backend and UI
+        PlaceComponent(component: weaponComponentInstance, position: new Vector2Int(0, 0));
+
+        // Adding weapon functionality
+        playerComponentManager.AddWeapon(weaponController);
+
+        // --------------------------------------------
     }
 
     string GridString()
@@ -216,10 +216,5 @@ public class MotherboardGrid : MonoBehaviour
         return true;
 
     }
-
-    // float GetTotalWattage()
-    // {
-        
-    // }
 
 }
