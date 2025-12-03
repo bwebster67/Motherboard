@@ -17,11 +17,6 @@ public class MotherboardState : GameState
     {
         base.Tick();
 
-        // For testing only
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            context.ChangeGameState(new PlayingState(context));
-        }
     }
 
 }

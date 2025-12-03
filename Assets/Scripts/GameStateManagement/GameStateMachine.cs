@@ -21,7 +21,7 @@ public class GameStateMachine : MonoBehaviour
 
     void Start()
     {
-        ChangeGameState(new PlayingState(this));
+        ChangeGameState(new MotherboardState(this));
     }
 
     void Update()
