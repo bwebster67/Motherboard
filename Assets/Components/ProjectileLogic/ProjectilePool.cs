@@ -6,12 +6,14 @@ using UnityEngine.Pool;
 public class ProjectilePool : MonoBehaviour
 {
     public GameObject projectilePrefab;
+    public WeaponData weaponData;
     
     private ObjectPool<GameObject> _pool;
 
-    public void Init(GameObject projectilePrefab)
+    public void Init(GameObject projectilePrefab, WeaponData weaponData)
     {
         this.projectilePrefab = projectilePrefab;
+        this.weaponData = weaponData;
         // Initialize the pool
         _pool = new ObjectPool<GameObject>(
             createFunc: () => CreatePooledProjectile(projectilePrefab), // How to create a new item if the pool is empty
@@ -30,8 +32,9 @@ public class ProjectilePool : MonoBehaviour
 
     GameObject CreatePooledProjectile(GameObject projectilePrefab)
     {
+        projectilePrefab.SetActive(false);
         GameObject prefab = Instantiate(projectilePrefab);
-        prefab.GetComponent<PlayerProjectile>().Init(this);
+        prefab.GetComponent<PlayerProjectile>().Init(this, weaponData);
         return prefab;
     }
 

@@ -1,6 +1,6 @@
 using UnityEngine; 
 
-public class BugEnemy : Enemy , IEnemyMoveBehavior
+public class BugEnemy : Enemy, IEnemyMoveBehavior
 {
     protected override void Start()
     {

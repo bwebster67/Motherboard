@@ -16,4 +16,4 @@ MonoBehaviour:
   damage: 5
   speed: 10
   cooldownDuration: 3
-  projectileCount: 1
+  projectileCount: 2

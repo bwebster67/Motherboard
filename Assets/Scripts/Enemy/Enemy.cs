@@ -7,7 +7,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     public GameObject player;
 
     // Stats
-    public float currentHealth;
+    private float currentHealth;
 
     protected virtual void Start()
     {
@@ -24,6 +24,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     public virtual float TakeDamage(float amount)
     {
         currentHealth -= amount;
+        Debug.Log($"Enemy took {amount} damage and is now at {currentHealth} health.");
         if (currentHealth <= 0)
         {
             Die();
@@ -33,5 +34,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 
     protected virtual void Die()
     {
+        Destroy(gameObject);
+        Debug.Log("Enemy Died");
     }
 }

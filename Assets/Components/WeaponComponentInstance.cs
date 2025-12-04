@@ -13,7 +13,7 @@ public class WeaponComponentInstance : ComponentInstance
         base.Start();
         currentCooldown = weaponData.cooldownDuration; 
         projectilePool = gameObject.AddComponent<ProjectilePool>();
-        projectilePool.Init(weaponData.projectilePrefab);
+        projectilePool.Init(weaponData.projectilePrefab, weaponData);
     }
 
     protected override void Update()

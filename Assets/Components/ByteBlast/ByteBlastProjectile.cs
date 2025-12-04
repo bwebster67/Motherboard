@@ -16,6 +16,11 @@ public class ByteBlastProjectile : PlayerProjectile
         base.Deactivate();
     }
 
+    protected override void OnTriggerEnter2D(Collider2D collider2D)
+    {
+        base.OnTriggerEnter2D(collider2D);
+    }
+
     protected override void Reset()
     {
         base.Reset();
