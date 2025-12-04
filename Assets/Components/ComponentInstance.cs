@@ -10,6 +10,14 @@ public abstract class ComponentInstance : MonoBehaviour
     public Vector2Int gridPosition; // top-left aligned
     public Vector2Int anchorPosition; // top-left 
 
+    // Context
+    protected PlayerComponentManager playerComponentManager;
+
+    protected virtual void Awake()
+    {
+        if (playerComponentManager == null) { playerComponentManager = FindAnyObjectByType<PlayerComponentManager>(); }
+    }
+
     protected virtual void Start()
     {
     }
@@ -17,5 +25,6 @@ public abstract class ComponentInstance : MonoBehaviour
     protected virtual void Update()
     {
     }
+
 
 }

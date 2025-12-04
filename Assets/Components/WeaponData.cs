@@ -4,7 +4,7 @@ using UnityEngine;
 public class WeaponData : ScriptableObject
 {
     [Header("Weapon Stats")]
-    public GameObject prefab;
+    public GameObject projectilePrefab;
     public float damage;
     public float speed;
     public float cooldownDuration;

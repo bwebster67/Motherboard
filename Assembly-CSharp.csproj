@@ -48,6 +48,7 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.2.2f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Components\ByteBlast\ByteBlastProjectile.cs" />
     <Compile Include="Assets\Components\WeaponData.cs" />
     <Compile Include="Assets\Scripts\ComponentFactory.cs" />
     <Compile Include="Assets\Scripts\MotherboardConfirmButton.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Assets\Scripts\PlayerLevelManager.cs" />
     <Compile Include="Assets\Scripts\Enemy\IEnemyMoveBehavior.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IHealable.cs" />
+    <Compile Include="Assets\Scripts\EnemySpawnManager.cs" />
     <Compile Include="Assets\Scripts\GameStateManagement\MotherboardState.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemySO.cs" />
     <Compile Include="Assets\Components\ComponentInstance.cs" />
@@ -69,7 +71,9 @@
     <Compile Include="Assets\Scripts\GameStateManagement\PlayingState.cs" />
     <Compile Include="Assets\Scripts\Motherboard\MotherboardGrid.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\Components\ProjectileLogic\ProjectilePool.cs" />
     <Compile Include="Assets\Scripts\SelectionComponent.cs" />
+    <Compile Include="Assets\Components\ProjectileLogic\PlayerProjectile.cs" />
     <Compile Include="Assets\Components\Ram\RamController.cs" />
     <Compile Include="Assets\Scripts\Enemy\BugEnemy.cs" />
     <Compile Include="Assets\Scripts\Motherboard\GridComponentUI.cs" />
