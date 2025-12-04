@@ -29,9 +29,7 @@ public class ByteBlastComponent : WeaponComponentInstance
             for (int j = 0; j < 8; j++)
             {
                 // 
-                // 
                 // OBJECT POOLING PLS???
-                // 
                 // 
                 Instantiate(weaponData.prefab, transform.position, Quaternion.identity);
                 float rand = Random.value;
