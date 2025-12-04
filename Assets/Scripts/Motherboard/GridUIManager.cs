@@ -30,10 +30,14 @@ public class GridUIManager : MonoBehaviour
     private Vector2Int dragOffset;
     private Vector2Int? currentHoveredSlotCoords;
 
+    // Component Selection
+    private ComponentSelectionUIManager componentSelectionUIManager;
+
 
     void Awake()
     {
         gridUISlots = new GameObject[gridHeight, gridWidth];
+        if (componentSelectionUIManager == null) componentSelectionUIManager = FindAnyObjectByType<ComponentSelectionUIManager>(); 
     }
 
     void Start()
@@ -59,6 +63,7 @@ public class GridUIManager : MonoBehaviour
         if (motherboardGrid.AddComponentEverywhere(draggedComponent, targetAnchor))
         {
             Debug.Log($"Component successfully placed at ({targetAnchor.x}, {targetAnchor.y})");
+            componentSelectionUIManager.ClearMenu();
         }
         draggedComponent = null;
         dragOffset = new Vector2Int(0, 0);

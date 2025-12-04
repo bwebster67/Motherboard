@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1947532649404198348}
-  - component: {fileID: 1378848585518520647}
+  - component: {fileID: 4341010712361852598}
   m_Layer: 0
   m_Name: RamController
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1378848585518520647
+--- !u!114 &4341010712361852598
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,10 +41,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5106084600261175665}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9c030af40685b244a1fd9ab04717c12, type: 3}
+  m_Script: {fileID: 11500000, guid: e5fbcee33f5375c4bb6fc941c0e834cb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ByteBlastComponent
-  componentName: Ram
+  m_EditorClassIdentifier: Assembly-CSharp::RamComponent
+  componentName: 
   UIData: {fileID: 11400000, guid: 829d54313f061c44bab06ce7e26bcd3b, type: 2}
   gridPosition: {x: 0, y: 0}
   anchorPosition: {x: 0, y: 0}

@@ -27,7 +27,7 @@ public class SelectionComponent : MonoBehaviour, IPointerDownHandler, IPointerUp
 
     void InitializeComponentGrid()
     {
-        componentLabel.text = componentPrefab.GetComponent<ComponentInstance>().componentName;
+        componentLabel.text = componentPrefab.GetComponent<ComponentInstance>().UIData.componentName;
 
         // fill grid with non-empty and empty segments based on shape from componentUIData
         int numRows = componentUIData.shape.Count; 
