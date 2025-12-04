@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c7c7f2d67deb844c804e2a3b0cf9032, type: 3}
-  m_Name: ByteBlast
+  m_Name: ByteBlastWeaponData
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  weaponName: ByteBlast
+  weaponName: CPU
   prefab: {fileID: 0}
   damage: 0
   speed: 0
   cooldownDuration: 3
-  pierce: 0
   projectileCount: 0

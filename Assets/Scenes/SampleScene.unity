@@ -33060,7 +33060,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   componentPrefabs:
   - {fileID: 5106084600261175665, guid: d95c739170750c14eae5de613c6b6f98, type: 3}
-  - {fileID: 5106084600261175665, guid: d95c739170750c14eae5de613c6b6f98, type: 3}
+  - {fileID: 5106084600261175665, guid: dd19f956c7f62a842bdbc60e8ea8f509, type: 3}
   - {fileID: 5106084600261175665, guid: d95c739170750c14eae5de613c6b6f98, type: 3}
 --- !u!4 &1024981454
 Transform:
@@ -33389,7 +33389,6 @@ MonoBehaviour:
   gridHeight: 3
   componentFactory: {fileID: 1024981453}
   playerComponentManager: {fileID: 1026351753}
-  testWeaponController: {fileID: 5106084600261175665, guid: d95c739170750c14eae5de613c6b6f98, type: 3}
 --- !u!4 &1877764257
 Transform:
   m_ObjectHideFlags: 0

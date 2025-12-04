@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\SelectionComponent.cs" />
     <Compile Include="Assets\Scripts\Enemy\BugEnemy.cs" />
     <Compile Include="Assets\Scripts\Motherboard\GridComponentUI.cs" />
+    <Compile Include="Assets\Scripts\Components\Ram\RamController.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GameStateManagement\GameStateMachine.cs" />
     <Compile Include="Assets\Scripts\ComponentUIData.cs" />
