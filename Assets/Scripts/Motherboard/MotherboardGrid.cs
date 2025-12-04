@@ -6,19 +6,18 @@ using UnityEngine.UIElements;
 
 public class MotherboardGrid : MonoBehaviour
 {
-    public ComponentInstance[,] grid;
+    public GameObject[,] grid;
     private List<Vector2Int> gridComponentAnchors;
     public GridUIManager gridUIManager;
     public int gridWidth = 6;
     public int gridHeight = 3;
     public ComponentFactory componentFactory;
     public PlayerComponentManager playerComponentManager;
-    public GameObject testWeaponController;
 
 
     void Start()
     {
-        grid = new ComponentInstance[gridHeight, gridWidth];
+        grid = new GameObject[gridHeight, gridWidth];
         gridComponentAnchors = new List<Vector2Int>(); 
 
         // Making grid start null
@@ -41,27 +40,42 @@ public class MotherboardGrid : MonoBehaviour
         componentFactory.GetComponentChoices();
 
         GameObject startingComponent = componentFactory.GetComponent(0);
-        AddWeaponEverywhere(startingComponent);
+        AddComponentEverywhere(startingComponent, new Vector2Int(0, 0));
+
+        //  TESTING DUPLICATE COMPONENTS
+        // Getting the weapon controller, temporarily stored in the game object
+        GameObject startingComponent2 = componentFactory.GetComponent(1);
+        AddComponentEverywhere(startingComponent2, new Vector2Int(0, 3));
 
         ReloadMotherboard();
 
         Debug.Log(GridString());
     }
 
-    void AddWeaponEverywhere(GameObject weaponController)
+    public bool AddComponentEverywhere(GameObject componentGO, Vector2Int position)
     {
         // Flow for adding a weapon component --------
 
-        // Getting the weapon controller, temporarily stored in the game object
-        WeaponComponentInstance weaponComponentInstance = weaponController.GetComponent<WeaponComponentInstance>();
+        GameObject componentGOInstance = Instantiate(componentGO);
+        ComponentInstance componentInstance = componentGOInstance.GetComponent<ComponentInstance>();
         
         // Backend and UI
-        PlaceComponent(component: weaponComponentInstance, position: new Vector2Int(0, 0));
+        if (PlaceComponent(componentGO: componentGOInstance, position: position))
+        {
+            // Adding weapon functionality
+            // NEED TO CHANGE WHEN I ADD NON-WEAPONS
+            playerComponentManager.AddWeapon(componentGOInstance);
+            return true;
+        }
+        else
+        {
+            Destroy(componentGOInstance);
+            return false;
+        }
 
-        // Adding weapon functionality
-        playerComponentManager.AddWeapon(weaponController);
 
         // --------------------------------------------
+
     }
 
     string GridString()
@@ -95,15 +109,16 @@ public class MotherboardGrid : MonoBehaviour
         foreach (Vector2Int anchor in gridComponentAnchors)
         {
             // add component functionality
-            ComponentInstance componentInstance = grid[anchor.x, anchor.y];
+            GameObject componentGO = grid[anchor.x, anchor.y];
 
         }
     }
 
-    bool CanPlaceComponent(ComponentInstance component, Vector2Int position)
+    bool CanPlaceComponent(ComponentInstance componentGO, Vector2Int position)
     // returns True if the passed component can be placed in the passed location, False otherwise
     {
         // for segment in component_shape
+        ComponentInstance component = componentGO.GetComponent<ComponentInstance>();
         List<ComponentShapeRow> componentShape = component.UIData.shape;
         int componentRows = component.UIData.shape.Count;
         int componentCols = component.UIData.shape[0].cols.Count;
@@ -143,9 +158,10 @@ public class MotherboardGrid : MonoBehaviour
         return true;
     }
 
-    public bool PlaceComponent(ComponentInstance component, Vector2Int position)
+    public bool PlaceComponent(GameObject componentGO, Vector2Int position)
     // places the passed component at the passed location
     {
+        ComponentInstance component = componentGO.GetComponent<ComponentInstance>();
         List<ComponentShapeRow> componentShape = component.UIData.shape;
         int componentRows = component.UIData.shape.Count;
         int componentCols = component.UIData.shape[0].cols.Count;
@@ -164,9 +180,7 @@ public class MotherboardGrid : MonoBehaviour
                 if (componentShape[row].cols[col])
                 {
                     Vector2Int newPos = position + new Vector2Int(row, col);
-                    grid[newPos.x, newPos.y] = component;
-
-                    // Debug.Log($"Position of component segment [{row}, {col}] in grid is [{newPos.x},{newPos.y}].");
+                    grid[newPos.x, newPos.y] = componentGO;
                 }
             }
         }
@@ -184,16 +198,17 @@ public class MotherboardGrid : MonoBehaviour
 
     public bool RemoveComponent(Vector2Int anchorPosition)
     {
-        ComponentInstance component = grid[anchorPosition.x, anchorPosition.y];
-        if (component == null)
+        GameObject componentGO = grid[anchorPosition.x, anchorPosition.y];
+        if (componentGO == null)
         {
             Debug.LogError($"No component to remove at anchor ({anchorPosition.x}, {anchorPosition.y})");
             return false;
         }
 
-        List<ComponentShapeRow> componentShape = component.UIData.shape;
-        int componentRows = component.UIData.shape.Count;
-        int componentCols = component.UIData.shape[0].cols.Count;
+        ComponentInstance componentInstance = componentGO.GetComponent<ComponentInstance>();   
+        List<ComponentShapeRow> componentShape = componentInstance.UIData.shape;
+        int componentRows = componentInstance.UIData.shape.Count;
+        int componentCols = componentInstance.UIData.shape[0].cols.Count;
 
         for (int row = 0; row < componentRows; row++)
         {
@@ -207,7 +222,7 @@ public class MotherboardGrid : MonoBehaviour
         }
 
         // Remove from UI
-        gridUIManager.RemoveComponentUI(component);
+        gridUIManager.RemoveComponentUI(componentGO);
 
         // Remove from gridComponentAnchors
         gridComponentAnchors.Remove(anchorPosition);

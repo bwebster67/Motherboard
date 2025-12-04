@@ -1,8 +1,9 @@
 using System.Data;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class SelectionComponent : MonoBehaviour
+public class SelectionComponent : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public GameObject componentPrefab;
     public ComponentUIData componentUIData;
@@ -10,6 +11,12 @@ public class SelectionComponent : MonoBehaviour
     public GameObject filledSegmentPrefab;
     public GameObject emptySegmentPrefab;
     public GameObject componentGrid;
+    public GridUIManager gridUIManager;
+
+    public void Awake()
+    {
+        gridUIManager = FindAnyObjectByType<GridUIManager>();
+    }
 
     public void AssignComponent(GameObject componentPrefab)
     {
@@ -17,6 +24,7 @@ public class SelectionComponent : MonoBehaviour
         componentUIData = componentPrefab.GetComponent<ComponentInstance>().UIData;
         InitializeComponentGrid();
     }
+
     void InitializeComponentGrid()
     {
         componentLabel.text = componentPrefab.GetComponent<ComponentInstance>().componentName;
@@ -39,5 +47,15 @@ public class SelectionComponent : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void OnPointerDown(PointerEventData pointerEventData)
+    {
+        gridUIManager.OnSelectionSlotMouseDown(componentPrefab);
+    }
+
+    public void OnPointerUp(PointerEventData pointerEventData)
+    {
+        gridUIManager.OnSelectionSlotMouseUp(componentPrefab);
     }
 }

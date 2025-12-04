@@ -8,12 +8,6 @@ public class GridComponentUI : MonoBehaviour
     ComponentUIData componentUIData;
     public int widthInSlots;
     public int heightInSlots;
-    // GridUIManager gridUIManager;
-
-    // void Awake()
-    // {
-        // gridUIManager = FindAnyObjectByType<GridUIManager>();
-    // }
 
     public void Set(ComponentUIData componentUIData)
     {

@@ -26,7 +26,7 @@ public class GridUIManager : MonoBehaviour
     public MotherboardGrid motherboardGrid;
 
     // Dragging
-    private ComponentInstance draggedComponent;
+    private GameObject draggedComponent;
     private Vector2Int dragOffset;
     private Vector2Int? currentHoveredSlotCoords;
 
@@ -43,20 +43,43 @@ public class GridUIManager : MonoBehaviour
         LayoutRebuilder.ForceRebuildLayoutImmediate(gridRect);
     }
 
+
+    public void OnSelectionSlotMouseDown(GameObject componentPrefab)
+    {
+        Debug.Log("SelectionSlot Mouse Down");
+        draggedComponent = componentPrefab;
+        // dragOffset = new Vector2Int(0, 0);
+    }
+
+    public void OnSelectionSlotMouseUp(GameObject componentPrefab)
+    {
+        Debug.Log("SelectionSlot Mouse Up");
+        if (draggedComponent == null) return;
+        Vector2Int targetAnchor = currentHoveredSlotCoords.Value;
+        if (motherboardGrid.AddComponentEverywhere(draggedComponent, targetAnchor))
+        {
+            Debug.Log($"Component successfully placed at ({targetAnchor.x}, {targetAnchor.y})");
+        }
+        draggedComponent = null;
+        dragOffset = new Vector2Int(0, 0);
+    }
+
+
     public void OnGridSlotMouseDown(Vector2Int gridCoords)
     {
         Debug.Log($"Mouse down on slot ({gridCoords.x}, {gridCoords.y})");
 
-        ComponentInstance component = motherboardGrid.grid[gridCoords.x, gridCoords.y];
-        if (component == null)
+        GameObject componentGO = motherboardGrid.grid[gridCoords.x, gridCoords.y];
+        ComponentInstance componentInstance = componentGO.GetComponent<ComponentInstance>();
+        if (componentGO == null)
         {
             Debug.Log($"No component to drag in slot ({gridCoords.x}, {gridCoords.y})");
             return;
         }
-        motherboardGrid.RemoveComponent(component.anchorPosition);
+        motherboardGrid.RemoveComponent(componentInstance.anchorPosition);
 
-        dragOffset = gridCoords - component.anchorPosition;
-        draggedComponent = component;
+        dragOffset = gridCoords - componentInstance.anchorPosition;
+        draggedComponent = componentGO;
     }
     public void OnGridSlotMouseUp(Vector2Int gridCoords)
     {
@@ -67,22 +90,24 @@ public class GridUIManager : MonoBehaviour
         {
             // Component was dropped outside of the grid, do not place
             Debug.Log("Component dropped out of grid.");
-            motherboardGrid.PlaceComponent(draggedComponent, gridCoords- dragOffset);
+            motherboardGrid.AddComponentEverywhere(draggedComponent, gridCoords- dragOffset);
             draggedComponent = null;
+            dragOffset = new Vector2Int(0, 0);
             return;
         }
 
         Vector2Int targetAnchor = currentHoveredSlotCoords.Value - dragOffset;
         Debug.Log($"targetAnchor: ({targetAnchor.x}, {targetAnchor.y}) = gridCoords ({gridCoords.x}, {gridCoords.y}) - dragOffset ({dragOffset.x}, {dragOffset.y})");
-        if (motherboardGrid.PlaceComponent(draggedComponent, targetAnchor))
+        if (motherboardGrid.AddComponentEverywhere(draggedComponent, targetAnchor))
         {
             Debug.Log($"Component successfully placed at ({targetAnchor.x}, {targetAnchor.y})");
         }
         else
         {
-            motherboardGrid.PlaceComponent(draggedComponent, gridCoords - dragOffset);
+            motherboardGrid.AddComponentEverywhere(draggedComponent, gridCoords - dragOffset);
         }
         draggedComponent = null;
+        dragOffset = new Vector2Int(0, 0);
     }
 
     public void OnGridSlotEnter(Vector2Int gridCoords)
@@ -132,14 +157,14 @@ public class GridUIManager : MonoBehaviour
         gridItem.Set(componentUIData, gridComponentUIGO);
     }
 
-    public void RemoveComponentUI(ComponentInstance component)
+    public void RemoveComponentUI(GameObject componentGO)
     {
-        // remove it from grid slots
+        ComponentInstance componentInstance = componentGO.GetComponent<ComponentInstance>();
 
         // and remove the UI component
-        List<ComponentShapeRow> componentShape = component.UIData.shape;
-        int componentRows = component.UIData.shape.Count;
-        int componentCols = component.UIData.shape[0].cols.Count;
+        List<ComponentShapeRow> componentShape = componentInstance.UIData.shape;
+        int componentRows = componentInstance.UIData.shape.Count;
+        int componentCols = componentInstance.UIData.shape[0].cols.Count;
 
         for (int row = 0; row < componentRows; row++)
         {
@@ -147,7 +172,7 @@ public class GridUIManager : MonoBehaviour
             {
                 if (componentShape[row].cols[col])
                 {
-                    GridSlot gridSlot = gridUISlots[component.anchorPosition.x, component.anchorPosition.y].GetComponent<GridSlot>();
+                    GridSlot gridSlot = gridUISlots[componentInstance.anchorPosition.x, componentInstance.anchorPosition.y].GetComponent<GridSlot>();
                     if (gridSlot.gridComponentUI != null)
                     {
                         Destroy(gridSlot.gridComponentUI);
