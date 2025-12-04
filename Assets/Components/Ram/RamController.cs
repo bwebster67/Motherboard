@@ -16,6 +16,6 @@ public class RamComponent : WeaponComponentInstance
     {
         base.Attack();
         // Instantiate(weaponData.prefab);
-        Debug.Log("Ram Placeholder Action");
+        // Debug.Log("Ram Placeholder Action");
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dc5a7da8ef2a7a448983cd4f4bc2aa1, type: 3}
   m_Name: ByteBlastUIData
   m_EditorClassIdentifier: Assembly-CSharp::ComponentData
-  componentName: Component0
+  componentName: CPU
   shape:
   - cols: 010100
   - cols: 010100

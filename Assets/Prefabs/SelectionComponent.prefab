@@ -223,6 +223,7 @@ MonoBehaviour:
   filledSegmentPrefab: {fileID: 9013416856376373296, guid: fc99bdbc962082040a5d0a86b93e0ab3, type: 3}
   emptySegmentPrefab: {fileID: 6559152056548166779, guid: 9e68e8ae011b19245a1308668b8209f0, type: 3}
   componentGrid: {fileID: 548916502346244189}
+  gridUIManager: {fileID: 0}
 --- !u!1 &8001554850781759391
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,8 +319,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22
-  m_fontSizeBase: 22
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

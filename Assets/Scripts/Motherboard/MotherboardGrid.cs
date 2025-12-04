@@ -42,11 +42,6 @@ public class MotherboardGrid : MonoBehaviour
         GameObject startingComponent = componentFactory.GetComponent(0);
         AddComponentEverywhere(startingComponent, new Vector2Int(0, 0));
 
-        //  TESTING DUPLICATE COMPONENTS
-        // Getting the weapon controller, temporarily stored in the game object
-        GameObject startingComponent2 = componentFactory.GetComponent(1);
-        AddComponentEverywhere(startingComponent2, new Vector2Int(0, 3));
-
         ReloadMotherboard();
 
         Debug.Log(GridString());

@@ -4,7 +4,6 @@ using UnityEngine;
 public class WeaponData : ScriptableObject
 {
     [Header("Weapon Stats")]
-    public string weaponName;
     public GameObject prefab;
     public float damage;
     public float speed;
