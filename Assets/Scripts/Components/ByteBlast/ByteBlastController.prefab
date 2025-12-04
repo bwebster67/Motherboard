@@ -44,5 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9c030af40685b244a1fd9ab04717c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ByteBlastComponent
+  componentName: ByteBlast
   UIData: {fileID: 11400000, guid: 02aae38c87b974d4f81fb3a77d7671f7, type: 2}
+  gridPosition: {x: 0, y: 0}
+  anchorPosition: {x: 0, y: 0}
   weaponData: {fileID: 11400000, guid: 62785bbb1d45fdf409c349ee595b6083, type: 2}

@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ComponentData
   componentName: Component0
   shape:
-  - cols: 01
-  - cols: 01
-  - cols: 01
+  - cols: 010000
+  - cols: 010000
+  - cols: 010000
   sprite: {fileID: 6304010325455200331, guid: 9485bea51dc0db3478ceb60b6f5df8c9, type: 3}
   width: 1
   height: 3

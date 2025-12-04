@@ -6,12 +6,14 @@ public class MotherboardState : GameState
     {
         base.EnterState();
         context.motherboardCanvas.gameObject.SetActive(true);
+        context.componentSelectionUIManager.PopulateMenuWithComponents();
     }
     public override void ExitState()
     {
         base.ExitState();
         context.motherboardGrid.ReloadMotherboard();
         context.motherboardCanvas.gameObject.SetActive(false);
+        context.componentSelectionUIManager.ClearMenu();
     }
     public override void Tick()
     {

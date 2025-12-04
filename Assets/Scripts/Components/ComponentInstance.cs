@@ -1,9 +1,11 @@
+using System;
 using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class ComponentInstance : MonoBehaviour
 {
+    public string componentName;
     public ComponentUIData UIData;
     protected int currentLevel = 1;
     public Vector2Int gridPosition; // top-left aligned
