@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySO
   prefab: {fileID: 0}
   baseMoveSpeed: 2
-  baseHealth: 10
+  baseHealth: 6
   baseCollisionDamage: 1
   baseAttackDamage: 1

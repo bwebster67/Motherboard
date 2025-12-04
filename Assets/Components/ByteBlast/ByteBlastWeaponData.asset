@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ByteBlastWeaponData
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   projectilePrefab: {fileID: 7669988861427846236, guid: 32e5987989e4dd04e83d84e7db235389, type: 3}
-  damage: 5
+  damage: 1
   speed: 10
   cooldownDuration: 3
   projectileCount: 2
