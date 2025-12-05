@@ -1,4 +1,5 @@
-using UnityEngine; 
+using UnityEngine;
+using UnityEngine.Scripting;
 
 public abstract class Enemy : MonoBehaviour, IDamageable 
 {
@@ -6,8 +7,16 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     public Rigidbody2D rigidbody2D;
     public GameObject player;
 
+    // Context
+    EnemySpawnManager enemySpawnManager;
+
     // Stats
     private float currentHealth;
+
+    protected virtual void Awake()
+    {
+        enemySpawnManager = FindAnyObjectByType<EnemySpawnManager>();
+    }
 
     protected virtual void Start()
     {
@@ -34,6 +43,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 
     protected virtual void Die()
     {
+        enemySpawnManager.enemies.Remove(transform);
         Destroy(gameObject);
         Debug.Log("Enemy Died");
     }

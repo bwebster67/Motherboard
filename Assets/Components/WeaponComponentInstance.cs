@@ -46,6 +46,7 @@ public class WeaponComponentInstance : ComponentInstance
         Vector3 currentPosition = transform.position;
         foreach(Transform potentialTarget in enemies)
         {
+            Debug.Log($"{enemies.Count}");
             Vector3 directionToTarget = potentialTarget.position - currentPosition;
             float dSqrToTarget = directionToTarget.sqrMagnitude;
             if(dSqrToTarget < closestDistanceSqr)
