@@ -47,6 +47,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 
     protected virtual void Die()
     {
+        PlayerLevelManager.Instance.GainExp(enemyData.expValue);
         enemySpawnManager.activeEnemies.Remove(transform);
         ReturnToPool();
         Debug.Log("Enemy Died");

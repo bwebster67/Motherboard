@@ -8,4 +8,5 @@ public class EnemySO : ScriptableObject
     public float baseHealth;
     public float baseCollisionDamage;
     public float baseAttackDamage;
+    public float expValue;
 }
