@@ -12,10 +12,12 @@ public abstract class ComponentInstance : MonoBehaviour
 
     // Context
     protected PlayerComponentManager playerComponentManager;
+    protected Transform playerTransform;
 
     protected virtual void Awake()
     {
         if (playerComponentManager == null) { playerComponentManager = FindAnyObjectByType<PlayerComponentManager>(); }
+        if (playerTransform == null) { playerTransform = GameObject.FindGameObjectWithTag("Player").transform; }
     }
 
     protected virtual void Start()

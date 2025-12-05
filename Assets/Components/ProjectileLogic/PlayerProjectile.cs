@@ -8,6 +8,7 @@ public abstract class PlayerProjectile : MonoBehaviour
     private Transform _player;
     private WeaponData _weaponData;
     private float currentDamage;
+    int currentPiercesLeft;
 
     public virtual void Awake()
     {
@@ -18,7 +19,11 @@ public abstract class PlayerProjectile : MonoBehaviour
         _pool = pool;
         _weaponData = weaponData;
         currentDamage = weaponData.damage;
-        // currentDamage = 3;
+        currentPiercesLeft = weaponData.pierce;
+    }
+    protected virtual void Update()
+    {
+
     }
 
     protected virtual void OnEnable()
@@ -32,7 +37,9 @@ public abstract class PlayerProjectile : MonoBehaviour
     protected virtual void Deactivate()
     {
         // Cancel invoke to prevent errors if deactivated early
+        StopAllCoroutines();
         CancelInvoke(nameof(Deactivate)); 
+
         
         // Return to pool
         _pool.ReturnProjectile(gameObject);
@@ -44,7 +51,7 @@ public abstract class PlayerProjectile : MonoBehaviour
         transform.rotation = Quaternion.identity;
 
         currentDamage = _weaponData.damage;
-        // currentDamage = 3;
+        currentPiercesLeft = _weaponData.pierce;
     }
     
     protected virtual void OnTriggerEnter2D(Collider2D collider2D)
@@ -52,6 +59,16 @@ public abstract class PlayerProjectile : MonoBehaviour
         if (collider2D.gameObject.CompareTag("Enemy"))
         {
             collider2D.GetComponent<Enemy>().TakeDamage(currentDamage);
+            Debug.Log($"Collided with {collider2D.name}");
+            if (currentPiercesLeft == 0)
+            {
+                Deactivate();
+            }
+            else
+            {
+                currentPiercesLeft -= 1;
+            }
         }
+        
     }
 }

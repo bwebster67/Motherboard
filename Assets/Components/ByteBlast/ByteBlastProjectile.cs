@@ -5,6 +5,7 @@ using UnityEngine;
 public class ByteBlastProjectile : PlayerProjectile 
 {
     public TextMeshPro textMeshPro;
+    public Vector3 velocityVector = new Vector3(0, 0, 0);
 
     protected override void OnEnable()
     {
@@ -29,18 +30,13 @@ public class ByteBlastProjectile : PlayerProjectile
         else textMeshPro.text = "1";
     }
 
-    public IEnumerator Blast(Vector3 velocityVector)
+    protected override void Update()
     {
-        float timeElapsed = 0f;
-
-        while (timeElapsed < 3)
+        base.Update();
+        if (enabled)
         {
             transform.position = transform.position + velocityVector * Time.deltaTime;
-            timeElapsed += Time.deltaTime;
-            yield return null;
-        } 
-
-        Deactivate();
-
+        }
     }
+
 }

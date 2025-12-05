@@ -4,14 +4,29 @@ using UnityEngine;
 
 public class WeaponComponentInstance : ComponentInstance
 {
+    // Stats
     public WeaponData weaponData;
     protected float currentCooldown;
+    protected float currentCooldownDuration;
+    protected float instanceDamage;
+    protected float instanceSpeed;
+    protected int instancePierce;
+    protected int instanceProjectileCount;
+    
+    // Pooling 
     public ProjectilePool projectilePool;
 
     protected override void Start()
     {
         base.Start();
-        currentCooldown = weaponData.cooldownDuration; 
+
+        currentCooldownDuration = weaponData.cooldownDuration; 
+        currentCooldown = currentCooldownDuration; 
+        instanceDamage = weaponData.damage;
+        instanceSpeed = weaponData.speed;
+        instancePierce = weaponData.pierce;
+        instanceProjectileCount = weaponData.projectileCount;
+
         projectilePool = gameObject.AddComponent<ProjectilePool>();
         projectilePool.Init(weaponData.projectilePrefab, weaponData);
     }
@@ -20,7 +35,7 @@ public class WeaponComponentInstance : ComponentInstance
     {
         base.Update();
         currentCooldown -= Time.deltaTime;
-        if (currentCooldown <= 0f)   //Once the cooldown becomes 0, attack
+        if (currentCooldown <= 0f) 
         {
             Attack();
         }
@@ -29,12 +44,6 @@ public class WeaponComponentInstance : ComponentInstance
     virtual public void Attack()
     {
         currentCooldown = weaponData.cooldownDuration;
-    }
-
-    public void SetData(WeaponData data)
-    {
-        this.weaponData = data;
-        this.currentCooldown = data.cooldownDuration;
     }
 
     public Transform FindNearestEnemy(List<Transform> enemies)
@@ -46,7 +55,6 @@ public class WeaponComponentInstance : ComponentInstance
         Vector3 currentPosition = transform.position;
         foreach(Transform potentialTarget in enemies)
         {
-            Debug.Log($"{enemies.Count}");
             Vector3 directionToTarget = potentialTarget.position - currentPosition;
             float dSqrToTarget = directionToTarget.sqrMagnitude;
             if(dSqrToTarget < closestDistanceSqr)

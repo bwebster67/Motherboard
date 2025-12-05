@@ -21,7 +21,7 @@ public class ProjectilePool : MonoBehaviour
             actionOnRelease: (obj) => obj.SetActive(false), // What to do when an item is returned to the pool
             actionOnDestroy: (obj) => Destroy(obj),      // What to do if we destroy the pool itself
             collectionCheck: false, // Performance optimization (turn on for debugging only)
-            defaultCapacity: 24,    // Initial size
+            defaultCapacity: 60,    // Initial size
             maxSize: 100            // Max size (prevents memory leaks if you spawn too many)
         );
     }

@@ -29,7 +29,7 @@ public class ByteBlastComponent : WeaponComponentInstance
     {
         Transform target;
         Vector3 velocityVector;
-        for (int i = 0; i < weaponData.projectileCount; i++)
+        for (int i = 0; i < instanceProjectileCount; i++)
         {
             // Assign closest enemy as target
             target = FindNearestEnemy(playerComponentManager.enemySpawnManager.activeEnemies);
@@ -37,16 +37,13 @@ public class ByteBlastComponent : WeaponComponentInstance
             {
                 break; 
             }
-            velocityVector = (target.transform.position - playerComponentManager.player.transform.position).normalized * weaponData.speed;
+            velocityVector = (target.transform.position - playerTransform.position).normalized * instanceSpeed;
 
             for (int j = 0; j < 8; j++)
             {
-                // 
-                // OBJECT POOLING PLS???
-                // instantiating 8 things in a row lags
-                // 
-                GameObject bit = projectilePool.GetProjectile();
-                StartCoroutine(bit.GetComponent<ByteBlastProjectile>().Blast(velocityVector));
+                GameObject bitGO = projectilePool.GetProjectile();
+                ByteBlastProjectile bitScript = bitGO.GetComponent<ByteBlastProjectile>();
+                bitScript.velocityVector = velocityVector;
                 
                 yield return new WaitForSeconds(0.05f);
             }

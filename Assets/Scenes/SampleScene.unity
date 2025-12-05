@@ -33191,6 +33191,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1533230766}
   - component: {fileID: 1533230767}
+  - component: {fileID: 1533230768}
   m_Layer: 0
   m_Name: EnemySpawnManager
   m_TagString: Untagged
@@ -33225,8 +33226,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1715acd606f102d47956f80313459320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  enemies: []
-  bugEnemyPrefab: {fileID: 7563486271656428258, guid: 738ec637cb4e5d94d85e201f1d24c033, type: 3}
+  activeEnemies: []
+  poolsToCreate:
+  - tag: Bug
+    prefab: {fileID: 7563486271656428258, guid: 738ec637cb4e5d94d85e201f1d24c033, type: 3}
+    defaultSize: 20
+    maxSize: 200
+--- !u!114 &1533230768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533230765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a3b74bc69098e4bbdd9c80f510672e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyWaveManager
+  currentLevel: {fileID: 11400000, guid: 4a469e19e43c00e4da9175b8fd057a7a, type: 2}
+  playerTransform: {fileID: 510457817}
+  enemySpawnManager: {fileID: 1533230767}
 --- !u!1 &1578475242
 GameObject:
   m_ObjectHideFlags: 0
