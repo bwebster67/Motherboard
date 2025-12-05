@@ -26,10 +26,6 @@ public class ProjectilePool : MonoBehaviour
         );
     }
 
-    private void Awake()
-    {
-    }
-
     GameObject CreatePooledProjectile(GameObject projectilePrefab)
     {
         projectilePrefab.SetActive(false);

@@ -1,11 +1,15 @@
 using UnityEngine;
 using UnityEngine.Scripting;
+using UnityEngine.Pool;
 
 public abstract class Enemy : MonoBehaviour, IDamageable 
 {
     public EnemySO enemyData;
     public Rigidbody2D rigidbody2D;
     public GameObject player;
+
+    // Pooling
+    private IObjectPool<GameObject> _myPool;
 
     // Context
     EnemySpawnManager enemySpawnManager;
@@ -43,8 +47,21 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 
     protected virtual void Die()
     {
-        enemySpawnManager.enemies.Remove(transform);
-        Destroy(gameObject);
+        enemySpawnManager.activeEnemies.Remove(transform);
+        ReturnToPool();
         Debug.Log("Enemy Died");
     }
+
+    public void SetPool(IObjectPool<GameObject> pool) {
+        _myPool = pool;
+    }
+
+    public void ReturnToPool() {
+        if (_myPool != null) {
+            _myPool.Release(this.gameObject);
+        } else {
+            Destroy(gameObject); 
+        }
+    }
+
 }

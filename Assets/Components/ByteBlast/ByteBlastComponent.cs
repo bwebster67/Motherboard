@@ -32,7 +32,7 @@ public class ByteBlastComponent : WeaponComponentInstance
         for (int i = 0; i < weaponData.projectileCount; i++)
         {
             // Assign closest enemy as target
-            target = FindNearestEnemy(playerComponentManager.enemySpawnManager.enemies);
+            target = FindNearestEnemy(playerComponentManager.enemySpawnManager.activeEnemies);
             if (target == null) 
             {
                 break; 
