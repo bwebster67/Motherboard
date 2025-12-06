@@ -1,6 +1,7 @@
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Drawing;
 
 public class GridSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
@@ -8,6 +9,10 @@ public class GridSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     ComponentUIData componentUIData;
     public Vector2Int gridCoords;
     public GameObject gridComponentUI; // UI component when placed on grid
+    public static System.Action<Vector2Int, PointerEventData> onGridSlotPointerDown;
+    public static System.Action<Vector2Int, PointerEventData> onGridSlotPointerUp;
+    public static System.Action<Vector2Int, PointerEventData> onGridSlotPointerEnter;
+    public static System.Action<Vector2Int, PointerEventData> onGridSlotPointerExit;
 
     void Awake()
     {
@@ -24,24 +29,23 @@ public class GridSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         // Change sprite on hover
         GetComponent<Image>().sprite = gridUIManager.emptyGridSlotHoverSprite;
-        Debug.Log($"Hovering over ({gridCoords.x}, {gridCoords.y})");
-        gridUIManager.OnGridSlotEnter(gridCoords);
+        onGridSlotPointerEnter?.Invoke(gridCoords, pointerEventData);
     } 
 
     public void OnPointerExit(PointerEventData pointerEventData)
     {
         // Change sprite on hover
         GetComponent<Image>().sprite = gridUIManager.emptyGridSlotSprite;
-        gridUIManager.OnGridSlotExit(gridCoords);
+        onGridSlotPointerExit?.Invoke(gridCoords, pointerEventData);
     }
 
     public void OnPointerDown(PointerEventData pointerEventData)
     {
-        gridUIManager.OnGridSlotMouseDown(gridCoords);
+        onGridSlotPointerDown?.Invoke(gridCoords, pointerEventData);
     }
 
     public void OnPointerUp(PointerEventData pointerEventData)
     {
-        gridUIManager.OnGridSlotMouseUp(gridCoords);
+        onGridSlotPointerUp?.Invoke(gridCoords, pointerEventData);
     }
 }

@@ -13,6 +13,11 @@ public class SelectionComponent : MonoBehaviour, IPointerDownHandler, IPointerUp
     public GameObject componentGrid;
     public GridUIManager gridUIManager;
 
+    // Events
+    public static System.Action<GameObject> onSelectionSlotPointerDown;
+    public static System.Action<GameObject> onSelectionSlotPointerUp;
+
+
     public void Awake()
     {
         gridUIManager = FindAnyObjectByType<GridUIManager>();
@@ -51,11 +56,11 @@ public class SelectionComponent : MonoBehaviour, IPointerDownHandler, IPointerUp
 
     public void OnPointerDown(PointerEventData pointerEventData)
     {
-        gridUIManager.OnSelectionSlotMouseDown(componentPrefab);
+        onSelectionSlotPointerDown?.Invoke(componentPrefab);
     }
 
     public void OnPointerUp(PointerEventData pointerEventData)
     {
-        gridUIManager.OnSelectionSlotMouseUp(componentPrefab);
+        onSelectionSlotPointerUp?.Invoke(componentPrefab);
     }
 }

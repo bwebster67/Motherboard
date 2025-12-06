@@ -15,6 +15,6 @@ MonoBehaviour:
   projectilePrefab: {fileID: 7669988861427846236, guid: 32e5987989e4dd04e83d84e7db235389, type: 3}
   damage: 1
   speed: 6
-  cooldownDuration: 1
+  cooldownDuration: 2.5
   pierce: 0
-  projectileCount: 2
+  projectileCount: 1

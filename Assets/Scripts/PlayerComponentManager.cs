@@ -18,22 +18,32 @@ public class PlayerComponentManager : MonoBehaviour
     {
     }
 
-    public void AddWeapon(GameObject weaponController)
+    public void ClearComponents()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    public bool AddWeapon(GameObject weaponController)
     {
         // 
         // must take in an INSTANCE of the GO, not just the prefab. I think.. 
         // 
-        // GameObject weaponLogicGO = Instantiate(
-        //     weaponController,
-        //     transform.position,
-        //     Quaternion.identity,
-        //     this.transform
-        // );
         weaponController.transform.position = transform.position;
         weaponController.transform.rotation = Quaternion.identity;
         weaponController.transform.parent = transform;
 
         activeComponentControllerPrefabs.Add(weaponController);
+        return true;
     }
     
+    public bool RemoveWeapon(GameObject weaponController)
+    {
+        int idx = activeComponentControllerPrefabs.IndexOf(weaponController);
+        activeComponentControllerPrefabs.Remove(weaponController);
+        Destroy(transform.GetChild(idx).gameObject);
+        return true;
+    }
 }

@@ -28,3 +28,8 @@ MonoBehaviour:
     spawnRate: 0.125
     enemyTags:
     - Bug
+  - segmentName: Wave4
+    duration: 60
+    spawnRate: 0.0625
+    enemyTags:
+    - Bug

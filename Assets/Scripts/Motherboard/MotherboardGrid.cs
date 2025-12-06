@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
 public class MotherboardGrid : MonoBehaviour
@@ -13,6 +14,7 @@ public class MotherboardGrid : MonoBehaviour
     public int gridHeight = 3;
     public ComponentFactory componentFactory;
     public PlayerComponentManager playerComponentManager;
+
 
 
     void Start()
@@ -37,10 +39,10 @@ public class MotherboardGrid : MonoBehaviour
 
         // Components must be passed around (at least for now) by the weaponController gameObject
         // I added gridComponentAnchors, but with PlayerComponentManager that might not be necessary right now?
-        componentFactory.GetComponentChoices();
+        // componentFactory.GetComponentChoices();
 
-        GameObject startingComponent = componentFactory.GetComponent(0);
-        AddComponentEverywhere(startingComponent, new Vector2Int(0, 0));
+        // GameObject startingComponent = componentFactory.GetComponent(0);
+        // AddComponentEverywhere(startingComponent, new Vector2Int(0, 0));
 
         ReloadMotherboard();
 
@@ -49,17 +51,12 @@ public class MotherboardGrid : MonoBehaviour
 
     public bool AddComponentEverywhere(GameObject componentGO, Vector2Int position)
     {
-        // Flow for adding a weapon component --------
-
         GameObject componentGOInstance = Instantiate(componentGO);
-        ComponentInstance componentInstance = componentGOInstance.GetComponent<ComponentInstance>();
-        
         // Backend and UI
         if (PlaceComponent(componentGO: componentGOInstance, position: position))
         {
-            // Adding weapon functionality
             // NEED TO CHANGE WHEN I ADD NON-WEAPONS
-            playerComponentManager.AddWeapon(componentGOInstance);
+            // playerComponentManager.AddWeapon(componentGOInstance);
             return true;
         }
         else
@@ -67,10 +64,33 @@ public class MotherboardGrid : MonoBehaviour
             Destroy(componentGOInstance);
             return false;
         }
+    }
 
+    public bool RemoveComponentEverywhere(GameObject componentGO, Vector2Int position)
+    {
+        if (RemoveComponent(position))
+        {
+            // playerComponentManager.RemoveWeapon(componentGO);
+            return true;
+        }
+        return false;
+    }
 
-        // --------------------------------------------
+    public void ReloadMotherboard()
+    {
+        // NOT USEFUL YET
+        // Takes the components stored in the motherboardGrid and gives the player their functionality
+        Debug.Log("Reloading Motherboard.");
 
+        playerComponentManager.ClearComponents();
+
+        foreach (Vector2Int anchor in gridComponentAnchors)
+        {
+            // add component functionality
+            GameObject componentGO = grid[anchor.x, anchor.y];
+            playerComponentManager.AddWeapon(componentGO);
+
+        }
     }
 
     string GridString()
@@ -93,20 +113,6 @@ public class MotherboardGrid : MonoBehaviour
         }
 
         return output;
-    }
-
-    public void ReloadMotherboard()
-    {
-        // NOT USEFUL YET
-        // Takes the components stored in the motherboardGrid and gives the player their functionality
-        Debug.Log("Reloading Motherboard.");
-
-        foreach (Vector2Int anchor in gridComponentAnchors)
-        {
-            // add component functionality
-            GameObject componentGO = grid[anchor.x, anchor.y];
-
-        }
     }
 
     bool CanPlaceComponent(ComponentInstance componentGO, Vector2Int position)

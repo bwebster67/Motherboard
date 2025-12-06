@@ -12,7 +12,6 @@ public class GridUIManager : MonoBehaviour
 {
     private int gridWidth = 6; // TEMP
     private int gridHeight = 3; //TEMP
-    // private List<GameObject> gridRows = new List<GameObject>();
     public GameObject gridSlotPrefab;
     public Sprite emptyGridSlotSprite;
     public Sprite emptyGridSlotHoverSprite;
@@ -25,10 +24,6 @@ public class GridUIManager : MonoBehaviour
 
     public MotherboardGrid motherboardGrid;
 
-    // Dragging
-    private GameObject draggedComponent;
-    private Vector2Int dragOffset;
-    private Vector2Int? currentHoveredSlotCoords;
 
     // Component Selection
     private ComponentSelectionUIManager componentSelectionUIManager;
@@ -48,81 +43,6 @@ public class GridUIManager : MonoBehaviour
     }
 
 
-    public void OnSelectionSlotMouseDown(GameObject componentPrefab)
-    {
-        Debug.Log("SelectionSlot Mouse Down");
-        draggedComponent = componentPrefab;
-        // dragOffset = new Vector2Int(0, 0);
-    }
-
-    public void OnSelectionSlotMouseUp(GameObject componentPrefab)
-    {
-        Debug.Log("SelectionSlot Mouse Up");
-        if (draggedComponent == null) return;
-        Vector2Int targetAnchor = currentHoveredSlotCoords.Value;
-        if (motherboardGrid.AddComponentEverywhere(draggedComponent, targetAnchor))
-        {
-            Debug.Log($"Component successfully placed at ({targetAnchor.x}, {targetAnchor.y})");
-            componentSelectionUIManager.ClearMenu();
-        }
-        draggedComponent = null;
-        dragOffset = new Vector2Int(0, 0);
-    }
-
-
-    public void OnGridSlotMouseDown(Vector2Int gridCoords)
-    {
-        Debug.Log($"Mouse down on slot ({gridCoords.x}, {gridCoords.y})");
-
-        GameObject componentGO = motherboardGrid.grid[gridCoords.x, gridCoords.y];
-        ComponentInstance componentInstance = componentGO.GetComponent<ComponentInstance>();
-        if (componentGO == null)
-        {
-            Debug.Log($"No component to drag in slot ({gridCoords.x}, {gridCoords.y})");
-            return;
-        }
-        motherboardGrid.RemoveComponent(componentInstance.anchorPosition);
-
-        dragOffset = gridCoords - componentInstance.anchorPosition;
-        draggedComponent = componentGO;
-    }
-    public void OnGridSlotMouseUp(Vector2Int gridCoords)
-    {
-        Debug.Log($"Mouse up on slot ({gridCoords.x}, {gridCoords.y})");
-        if (draggedComponent == null) return;
-
-        if (currentHoveredSlotCoords == null)
-        {
-            // Component was dropped outside of the grid, do not place
-            Debug.Log("Component dropped out of grid.");
-            motherboardGrid.AddComponentEverywhere(draggedComponent, gridCoords- dragOffset);
-            draggedComponent = null;
-            dragOffset = new Vector2Int(0, 0);
-            return;
-        }
-
-        Vector2Int targetAnchor = currentHoveredSlotCoords.Value - dragOffset;
-        Debug.Log($"targetAnchor: ({targetAnchor.x}, {targetAnchor.y}) = gridCoords ({gridCoords.x}, {gridCoords.y}) - dragOffset ({dragOffset.x}, {dragOffset.y})");
-        if (motherboardGrid.AddComponentEverywhere(draggedComponent, targetAnchor))
-        {
-            Debug.Log($"Component successfully placed at ({targetAnchor.x}, {targetAnchor.y})");
-        }
-        else
-        {
-            motherboardGrid.AddComponentEverywhere(draggedComponent, gridCoords - dragOffset);
-        }
-        draggedComponent = null;
-        dragOffset = new Vector2Int(0, 0);
-    }
-
-    public void OnGridSlotEnter(Vector2Int gridCoords)
-    {
-        currentHoveredSlotCoords = gridCoords;
-    }
-    public void OnGridSlotExit(Vector2Int gridCoords)
-    {
-        currentHoveredSlotCoords = null;
-    }
 
     void GenerateGrid()
     // Fills the grid with empty slots

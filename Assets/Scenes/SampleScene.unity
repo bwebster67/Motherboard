@@ -32391,8 +32391,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 510457815}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.90901, y: -1.62952, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.363604, y: -0.65180796, z: -90}
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -32852,7 +32852,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bf652101e8d244b817ec094be0f58f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  currentLevel: 0
+  currentLevel: 1
+  playerExp: 0
+  nextLevelThreshold: 21
 --- !u!1 &970398245
 GameObject:
   m_ObjectHideFlags: 0
@@ -33193,7 +33195,7 @@ GameObject:
   - component: {fileID: 1533230767}
   - component: {fileID: 1533230768}
   m_Layer: 0
-  m_Name: EnemySpawnManager
+  m_Name: EnemyWaveManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33542,7 +33544,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 619394802}
   - {fileID: 391104446}
+  - {fileID: 298877540}
+  - {fileID: 510457817}
   - {fileID: 1907668783}
   - {fileID: 279864584}
-  - {fileID: 510457817}
-  - {fileID: 298877540}

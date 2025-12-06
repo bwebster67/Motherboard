@@ -80,6 +80,7 @@
     <Compile Include="Assets\Scripts\Enemy\BugEnemy.cs" />
     <Compile Include="Assets\Scripts\Motherboard\GridComponentUI.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Motherboard\GridDragManager.cs" />
     <Compile Include="Assets\Scripts\EnemyWaveManagement\LevelConfig.cs" />
     <Compile Include="Assets\Components\WeaponComponentInstance.cs" />
     <Compile Include="Assets\Scripts\GameStateManagement\GameStateMachine.cs" />
