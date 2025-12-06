@@ -7,6 +7,7 @@ public class GridDragManager : MonoBehaviour
     private GameObject draggedComponent;
     private Vector2Int dragOffset;
     private Vector2Int? currentHoveredSlotCoords;
+    private Vector2Int? draggedComponentFormerAnchor;
 
     // Context
     MotherboardGrid motherboardGrid;
@@ -47,7 +48,9 @@ public class GridDragManager : MonoBehaviour
             return;
         }
 
-        motherboardGrid.RemoveComponentEverywhere(componentGO, componentInstance.anchorPosition);
+        // instead of this, call to GridUIManager to disable the UI, unless drag fails
+        // motherboardGrid.RemoveComponentEverywhere(componentGO, componentInstance.anchorPosition);
+        draggedComponentFormerAnchor = componentInstance.anchorPosition;
         dragOffset = gridCoords - componentInstance.anchorPosition;
         draggedComponent = componentGO;
     }
@@ -60,7 +63,7 @@ public class GridDragManager : MonoBehaviour
         {
             // Component was dropped outside of the grid, do not place
             Debug.Log("Component dropped out of grid.");
-            motherboardGrid.AddComponentEverywhere(draggedComponent, gridCoords- dragOffset);
+            motherboardGrid.AddComponentEverywhere(draggedComponent, gridCoords - dragOffset);
             draggedComponent = null;
             dragOffset = new Vector2Int(0, 0);
             return;
@@ -71,10 +74,12 @@ public class GridDragManager : MonoBehaviour
         if (motherboardGrid.AddComponentEverywhere(draggedComponent, targetAnchor))
         {
             Debug.Log($"Component successfully placed at ({targetAnchor.x}, {targetAnchor.y})");
+            // Remove component from old spot.
+            motherboardGrid.RemoveComponentEverywhere(draggedComponent, draggedComponentFormerAnchor.Value);
         }
         else
         {
-            motherboardGrid.AddComponentEverywhere(draggedComponent, gridCoords - dragOffset);
+            // motherboardGrid.AddComponentEverywhere(draggedComponent, gridCoords - dragOffset);
         }
         draggedComponent = null;
         dragOffset = new Vector2Int(0, 0);
