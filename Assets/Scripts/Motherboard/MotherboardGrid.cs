@@ -16,8 +16,6 @@ public class MotherboardGrid : MonoBehaviour
     public ComponentFactory componentFactory;
     public PlayerComponentManager playerComponentManager;
 
-
-
     void Start()
     {
         grid = new ComponentPointer[gridHeight, gridWidth];
@@ -60,6 +58,7 @@ public class MotherboardGrid : MonoBehaviour
             foreach (Vector2Int anchor in gridComponentAnchors)
             {
                 anchors += $"{anchor}, ";
+                // print(anchor.ToString());
             }
             print(anchors);
         }
@@ -67,9 +66,8 @@ public class MotherboardGrid : MonoBehaviour
 
     public bool PlaceComponentEverywhere(GameObject componentGO, Vector2Int position)
     {
-        GameObject componentGOInstance = Instantiate(componentGO);
         // Backend and UI
-        if (PlaceComponent(componentPrefab: componentGOInstance, position: position))
+        if (PlaceComponent(componentPrefab: componentGO, position: position))
         {
             // NEED TO CHANGE WHEN I ADD NON-WEAPONS
             // playerComponentManager.AddWeapon(componentGOInstance);
@@ -77,7 +75,7 @@ public class MotherboardGrid : MonoBehaviour
         }
         else
         {
-            Destroy(componentGOInstance);
+            Destroy(componentGO);
             return false;
         }
     }
@@ -94,17 +92,18 @@ public class MotherboardGrid : MonoBehaviour
 
     public void ReloadMotherboard()
     {
-        // NOT USEFUL YET
         // Takes the components stored in the motherboardGrid and gives the player their functionality
         Debug.Log("Reloading Motherboard.");
 
-        playerComponentManager.ClearComponents();
+        playerComponentManager.DisableAllComponents();
 
         foreach (Vector2Int anchor in gridComponentAnchors)
         {
-            // add component functionality
             ComponentPointer componentPointer = grid[anchor.x, anchor.y];
-            // playerComponentManager.AddWeapon(componentGO);
+            if (playerComponentManager.activeComponentControllers.Contains(componentPointer.componentController)) 
+            {
+                componentPointer.componentController.gameObject.SetActive(true);
+            }
 
         }
     }
@@ -142,7 +141,8 @@ public class MotherboardGrid : MonoBehaviour
 
         gridUIManager.RemoveComponentUI(componentPointer);
 
-        // Removing each segment from old locations grid 
+        // Removing each segment from old locations grid
+        // Adding new 
         List<ComponentPointer> componentPointers = new List<ComponentPointer>();
         for (int row = 0; row < componentRows; row++)
         {
@@ -260,6 +260,9 @@ public class MotherboardGrid : MonoBehaviour
 
         // Save in gridComponentAnchors
         gridComponentAnchors.Add(position);
+
+        // Add to PlayerComponentManager
+        playerComponentManager.activeComponentControllers.Add(componentController);
         
         Debug.Log($"Component placed at ({position.x}, {position.y})");
         Debug.Log(GridString());

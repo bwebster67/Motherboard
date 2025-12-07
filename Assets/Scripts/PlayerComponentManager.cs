@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class PlayerComponentManager : MonoBehaviour
 {
-    public List<GameObject> activeComponentControllerPrefabs = new List<GameObject>();
+    public List<GameObject> activeComponentControllers = new List<GameObject>();
 
     // Context
     public EnemySpawnManager enemySpawnManager;
@@ -18,13 +18,12 @@ public class PlayerComponentManager : MonoBehaviour
     {
     }
 
-    public void ClearComponents()
+    public void DisableAllComponents()
     {
         foreach (Transform child in transform)
         {
-            Destroy(child.gameObject);
+            child.gameObject.SetActive(false);
         }
-        activeComponentControllerPrefabs.Clear();
     }
 
     public bool AddWeapon(GameObject weaponController)
@@ -36,14 +35,14 @@ public class PlayerComponentManager : MonoBehaviour
         weaponController.transform.rotation = Quaternion.identity;
         weaponController.transform.parent = transform;
 
-        activeComponentControllerPrefabs.Add(weaponController);
+        activeComponentControllers.Add(weaponController);
         return true;
     }
     
     public bool RemoveWeapon(GameObject weaponController)
     {
-        int idx = activeComponentControllerPrefabs.IndexOf(weaponController);
-        activeComponentControllerPrefabs.Remove(weaponController);
+        int idx = activeComponentControllers.IndexOf(weaponController);
+        activeComponentControllers.Remove(weaponController);
         Destroy(transform.GetChild(idx).gameObject);
         return true;
     }

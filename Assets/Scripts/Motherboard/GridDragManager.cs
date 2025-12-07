@@ -121,6 +121,7 @@ public class GridDragManager : MonoBehaviour
     {
         Debug.Log("SelectionSlot Mouse Up");
         if (draggedComponentPointer == null) return;
+        if (currentHoveredSlotCoords == null) return;
         Vector2Int targetAnchor = currentHoveredSlotCoords.Value;
         if (motherboardGrid.PlaceComponentEverywhere(draggedComponentPointer.componentController, targetAnchor))
         {

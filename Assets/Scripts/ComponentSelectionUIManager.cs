@@ -22,7 +22,6 @@ public class ComponentSelectionUIManager : MonoBehaviour
         {
             if (choice != null)
             {
-                Debug.Log($"choices.Count: {choices.Count}");
                 AddComponent(choice);
             }
         }
