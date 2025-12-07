@@ -131,7 +131,8 @@ public class MotherboardGrid : MonoBehaviour
         List<ComponentShapeRow> componentShape = componentInstance.UIData.shape;
         Vector2Int oldPosition = componentInstance.anchorPosition;
 
-        // Removing each segment from grid 
+        gridUIManager.RemoveComponentUI(componentGO);
+        // Removing each segment from old locations grid 
         for (int row = 0; row < componentRows; row++)
         {
             for (int col = 0; col < componentCols; col++)
@@ -140,6 +141,21 @@ public class MotherboardGrid : MonoBehaviour
                 {
                     Vector2Int newPos = oldPosition + new Vector2Int(row, col);
                     grid[newPos.x, newPos.y] = null;
+                }
+            }
+        }
+
+        componentInstance.anchorPosition = new Vector2Int(newPosition.x, newPosition.y);
+        // Adding each segment to new locations in grid
+        for (int row = 0; row < componentRows; row++)
+        {
+            for (int col = 0; col < componentCols; col++)
+            {
+                if (componentShape[row].cols[col])
+                {
+                    Vector2Int newPos = newPosition + new Vector2Int(row, col);
+                    componentInstance.gridPosition = new Vector2Int(newPos.x, newPos.y);
+                    grid[newPos.x, newPos.y] = componentGO;
                 }
             }
         }
