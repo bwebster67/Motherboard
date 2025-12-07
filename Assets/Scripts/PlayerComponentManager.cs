@@ -24,6 +24,7 @@ public class PlayerComponentManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        activeComponentControllerPrefabs.Clear();
     }
 
     public bool AddWeapon(GameObject weaponController)

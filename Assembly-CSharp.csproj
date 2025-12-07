@@ -52,6 +52,7 @@
     <Compile Include="Assets\Components\WeaponData.cs" />
     <Compile Include="Assets\Scripts\ComponentFactory.cs" />
     <Compile Include="Assets\Scripts\MotherboardConfirmButton.cs" />
+    <Compile Include="Assets\Components\ComponentPointer.cs" />
     <Compile Include="Assets\Scripts\ComponentSelectionUIManager.cs" />
     <Compile Include="Assets\Scripts\PlayerLevelManager.cs" />
     <Compile Include="Assets\Scripts\Enemy\IEnemyMoveBehavior.cs" />

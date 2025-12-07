@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Versioning;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,7 +8,7 @@ using UnityEngine.UIElements;
 
 public class MotherboardGrid : MonoBehaviour
 {
-    public GameObject[,] grid;
+    public ComponentPointer[,] grid;
     private List<Vector2Int> gridComponentAnchors;
     public GridUIManager gridUIManager;
     public int gridWidth = 6;
@@ -19,7 +20,7 @@ public class MotherboardGrid : MonoBehaviour
 
     void Start()
     {
-        grid = new GameObject[gridHeight, gridWidth];
+        grid = new ComponentPointer[gridHeight, gridWidth];
         gridComponentAnchors = new List<Vector2Int>(); 
 
         // Making grid start null
@@ -50,10 +51,17 @@ public class MotherboardGrid : MonoBehaviour
     }
 
     void Update()
+    // DEBUGGING
     {
         if (Input.GetKeyDown(KeyCode.G))
         {
             print(GridString());
+            string anchors = "gridComponentAnchors: ";
+            foreach (Vector2Int anchor in gridComponentAnchors)
+            {
+                anchors += $"{anchor}, ";
+            }
+            print(anchors);
         }
     }
 
@@ -61,7 +69,7 @@ public class MotherboardGrid : MonoBehaviour
     {
         GameObject componentGOInstance = Instantiate(componentGO);
         // Backend and UI
-        if (PlaceComponent(componentGO: componentGOInstance, position: position))
+        if (PlaceComponent(componentPrefab: componentGOInstance, position: position))
         {
             // NEED TO CHANGE WHEN I ADD NON-WEAPONS
             // playerComponentManager.AddWeapon(componentGOInstance);
@@ -95,8 +103,8 @@ public class MotherboardGrid : MonoBehaviour
         foreach (Vector2Int anchor in gridComponentAnchors)
         {
             // add component functionality
-            GameObject componentGO = grid[anchor.x, anchor.y];
-            playerComponentManager.AddWeapon(componentGO);
+            ComponentPointer componentPointer = grid[anchor.x, anchor.y];
+            // playerComponentManager.AddWeapon(componentGO);
 
         }
     }
@@ -123,60 +131,55 @@ public class MotherboardGrid : MonoBehaviour
         return output;
     }
 
-    public bool MoveComponent(GameObject componentGO, Vector2Int newPosition)
+    public bool MoveComponent(ComponentPointer componentPointer, Vector2Int newPosition)
     {
+        GameObject componentGO = componentPointer.componentController;
         ComponentInstance componentInstance = componentGO.GetComponent<ComponentInstance>();
         int componentRows = componentInstance.UIData.shape.Count;
         int componentCols = componentInstance.UIData.shape[0].cols.Count;
         List<ComponentShapeRow> componentShape = componentInstance.UIData.shape;
-        Vector2Int oldPosition = componentInstance.anchorPosition;
+        Vector2Int oldPosition = componentPointer.gridAnchorPosition;
 
-        gridUIManager.RemoveComponentUI(componentGO);
+        gridUIManager.RemoveComponentUI(componentPointer);
+
         // Removing each segment from old locations grid 
+        List<ComponentPointer> componentPointers = new List<ComponentPointer>();
         for (int row = 0; row < componentRows; row++)
         {
             for (int col = 0; col < componentCols; col++)
             {
                 if (componentShape[row].cols[col])
                 {
-                    Vector2Int newPos = oldPosition + new Vector2Int(row, col);
-                    grid[newPos.x, newPos.y] = null;
+                    Vector2Int oldSegmentPos = oldPosition + new Vector2Int(row, col);
+                    Vector2Int newSegmentPos = newPosition + new Vector2Int(row, col);
+                    ComponentPointer oldPointer = grid[oldSegmentPos.x, oldSegmentPos.y]; 
+                    oldPointer.UpdatePosition(newSegmentPos, newPosition);
+                    componentPointers.Add(oldPointer);
+                    grid[oldSegmentPos.x, oldSegmentPos.y] = null;
                 }
             }
         }
-
-        componentInstance.anchorPosition = new Vector2Int(newPosition.x, newPosition.y);
-        // Adding each segment to new locations in grid
-        for (int row = 0; row < componentRows; row++)
+        foreach (ComponentPointer cp in componentPointers)
         {
-            for (int col = 0; col < componentCols; col++)
-            {
-                if (componentShape[row].cols[col])
-                {
-                    Vector2Int newPos = newPosition + new Vector2Int(row, col);
-                    componentInstance.gridPosition = new Vector2Int(newPos.x, newPos.y);
-                    grid[newPos.x, newPos.y] = componentGO;
-                }
-            }
+            grid[cp.gridPosition.x, cp.gridPosition.y] = cp;
         }
 
         // Place in UI
         gridUIManager.PlaceComponentUI(componentInstance.UIData, gridCoords: newPosition);
 
         // Save in gridComponentAnchors
+        gridComponentAnchors.Remove(oldPosition);
         gridComponentAnchors.Add(newPosition);
 
-        // RemoveComponentEverywhere(componentGO, componentInstance.gridPosition);
-        // PlaceComponentEverywhere(componentGO, newPosition);
         print(GridString());
         return true;
     }
 
-    public bool CanPlaceComponent(GameObject componentGO, Vector2Int position)
+    public bool CanPlaceComponent(GameObject componentController, Vector2Int position)
     // returns True if the passed component can be placed in the passed location, False otherwise
     {
         // for segment in component_shape
-        ComponentInstance component = componentGO.GetComponent<ComponentInstance>();
+        ComponentInstance component = componentController.GetComponent<ComponentInstance>();
         List<ComponentShapeRow> componentShape = component.UIData.shape;
         int componentRows = component.UIData.shape.Count;
         int componentCols = component.UIData.shape[0].cols.Count;
@@ -207,7 +210,7 @@ public class MotherboardGrid : MonoBehaviour
                     if (grid[newPos.x, newPos.y] is not null)
                     {
                         // Check to see if new spot could safely overlap with old one
-                        if (grid[newPos.x, newPos.y] != componentGO)
+                        if (grid[newPos.x, newPos.y].componentController != componentController)
                         {
                             Debug.Log($"Segment blocked by another component at [{newPos.x}, {newPos.y}].");
                             return false;
@@ -220,21 +223,23 @@ public class MotherboardGrid : MonoBehaviour
         return true;
     }
 
-    public bool PlaceComponent(GameObject componentGO, Vector2Int position)
+    public bool PlaceComponent(GameObject componentPrefab, Vector2Int position)
     // places the passed component at the passed location
     {
-        ComponentInstance component = componentGO.GetComponent<ComponentInstance>();
-        List<ComponentShapeRow> componentShape = component.UIData.shape;
-        int componentRows = component.UIData.shape.Count;
-        int componentCols = component.UIData.shape[0].cols.Count;
 
-        if (!CanPlaceComponent(componentGO, position))
+        ComponentInstance componentInstance = componentPrefab.GetComponent<ComponentInstance>();
+        List<ComponentShapeRow> componentShape = componentInstance.UIData.shape;
+        int componentRows = componentInstance.UIData.shape.Count;
+        int componentCols = componentInstance.UIData.shape[0].cols.Count;
+
+        if (!CanPlaceComponent(componentPrefab, position))
         {
             Debug.LogError($"Cannot place component at position {position}.");
             return false;
         }
-        component.gridPosition = position;
-        component.anchorPosition = position;
+
+        GameObject componentController = Instantiate(componentPrefab, playerComponentManager.transform);
+        componentController.SetActive(false);
         
         for (int row = 0; row < componentRows; row++)
         {
@@ -243,13 +248,15 @@ public class MotherboardGrid : MonoBehaviour
                 if (componentShape[row].cols[col])
                 {
                     Vector2Int newPos = position + new Vector2Int(row, col);
-                    grid[newPos.x, newPos.y] = componentGO;
+                    ComponentPointer componentPointer = ScriptableObject.CreateInstance<ComponentPointer>();
+                    componentPointer.Init(componentController, newPos, position);
+                    grid[newPos.x, newPos.y] = componentPointer;
                 }
             }
         }
 
         // Place in UI
-        gridUIManager.PlaceComponentUI(component.UIData, gridCoords: position);
+        gridUIManager.PlaceComponentUI(componentInstance.UIData, gridCoords: position);
 
         // Save in gridComponentAnchors
         gridComponentAnchors.Add(position);
@@ -261,7 +268,8 @@ public class MotherboardGrid : MonoBehaviour
 
     public bool RemoveComponent(Vector2Int anchorPosition)
     {
-        GameObject componentGO = grid[anchorPosition.x, anchorPosition.y];
+        ComponentPointer componentPointer = grid[anchorPosition.x, anchorPosition.y];
+        GameObject componentGO = componentPointer.componentController;
         if (componentGO == null)
         {
             Debug.LogError($"No component to remove at anchor ({anchorPosition.x}, {anchorPosition.y})");
@@ -285,7 +293,7 @@ public class MotherboardGrid : MonoBehaviour
         }
 
         // Remove from UI
-        gridUIManager.RemoveComponentUI(componentGO);
+        gridUIManager.RemoveComponentUI(componentPointer);
 
         // Remove from gridComponentAnchors
         gridComponentAnchors.Remove(anchorPosition);

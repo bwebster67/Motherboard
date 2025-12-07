@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Versioning;
 using NUnit.Framework.Internal;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -82,8 +83,9 @@ public class GridUIManager : MonoBehaviour
         gridItem.Set(componentUIData, gridComponentUIGO);
     }
 
-    public void RemoveComponentUI(GameObject componentGO)
+    public void RemoveComponentUI(ComponentPointer componentPointer)
     {
+        GameObject componentGO = componentPointer.componentController;
         ComponentInstance componentInstance = componentGO.GetComponent<ComponentInstance>();
 
         // and remove the UI component
@@ -97,7 +99,7 @@ public class GridUIManager : MonoBehaviour
             {
                 if (componentShape[row].cols[col])
                 {
-                    GridSlot gridSlot = gridUISlots[componentInstance.anchorPosition.x, componentInstance.anchorPosition.y].GetComponent<GridSlot>();
+                    GridSlot gridSlot = gridUISlots[componentPointer.gridAnchorPosition.x, componentPointer.gridAnchorPosition.y].GetComponent<GridSlot>();
                     if (gridSlot.gridComponentUI != null)
                     {
                         Destroy(gridSlot.gridComponentUI);

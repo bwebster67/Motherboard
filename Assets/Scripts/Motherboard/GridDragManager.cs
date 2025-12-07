@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 public class GridDragManager : MonoBehaviour
 {
     // Dragging
-    private GameObject draggedComponent;
+    private ComponentPointer draggedComponentPointer;
     private Vector2Int dragOffset;
     private Vector2Int? currentHoveredSlotCoords;
     private Vector2Int? draggedComponentFormerAnchor;
@@ -39,32 +39,31 @@ public class GridDragManager : MonoBehaviour
 
     void StartDrag(Vector2Int gridCoords)
     {
-        GameObject componentGO = motherboardGrid.grid[gridCoords.x, gridCoords.y];
+        ComponentPointer componentPointer = motherboardGrid.grid[gridCoords.x, gridCoords.y];
         
-        if (componentGO == null)
+        if (componentPointer == null)
         {
             Debug.Log($"No component to drag in slot ({gridCoords.x}, {gridCoords.y})");
             return;
         }
 
-        ComponentInstance componentInstance = componentGO.GetComponent<ComponentInstance>();
         // instead of this, call to GridUIManager to disable the UI, unless drag fails
         // motherboardGrid.RemoveComponentEverywhere(componentGO, componentInstance.anchorPosition);
         // draggedComponentFormerAnchor = componentInstance.anchorPosition;
-        dragOffset = gridCoords - componentInstance.anchorPosition;
-        draggedComponent = componentGO;
+        dragOffset = gridCoords - componentPointer.gridAnchorPosition;
+        draggedComponentPointer = componentPointer;
     }
 
     void StopDrag()
     {
         // If nothing is being dragged, stop
-        if (draggedComponent == null) return;
+        if (draggedComponentPointer == null) return;
 
         // If dropping outside of a valid slot, reset component and stop
         if (currentHoveredSlotCoords == null)
         {
             Debug.Log("Component dropped out of grid.");
-            draggedComponent = null;
+            draggedComponentPointer = null;
             dragOffset = new Vector2Int(0, 0);
             return;
         }
@@ -73,15 +72,15 @@ public class GridDragManager : MonoBehaviour
         Vector2Int targetAnchor = currentHoveredSlotCoords.Value - dragOffset;
         Debug.Log($"targetAnchor: ({targetAnchor.x}, {targetAnchor.y}) = currentHoveredSlotCoords ({currentHoveredSlotCoords.Value.x}, {currentHoveredSlotCoords.Value.y}) - dragOffset ({dragOffset.x}, {dragOffset.y})");
         // If can place in this slot 
-        if (motherboardGrid.CanPlaceComponent(draggedComponent, targetAnchor))
+        if (motherboardGrid.CanPlaceComponent(draggedComponentPointer.componentController, targetAnchor))
         {
             // place component and remove it from the old spot
-            motherboardGrid.MoveComponent(draggedComponent, targetAnchor);
+            motherboardGrid.MoveComponent(draggedComponentPointer, targetAnchor);
             Debug.Log($"Component successfully moved to ({targetAnchor.x}, {targetAnchor.y})");
             // Remove component from old spot.
             // motherboardGrid.RemoveComponentEverywhere(draggedComponent, draggedComponentFormerAnchor.Value);
         }
-        draggedComponent = null;
+        draggedComponentPointer = null;
         dragOffset = new Vector2Int(0, 0);
     }
 
@@ -112,20 +111,23 @@ public class GridDragManager : MonoBehaviour
     void HandleSelectionSlotPointerDown(GameObject componentGO)
     {
         Debug.Log("SelectionSlot Mouse Down");
-        draggedComponent = componentGO;
+        Vector2Int nullLocation = new Vector2Int(-1, -1);
+        ComponentPointer componentPointer = ScriptableObject.CreateInstance<ComponentPointer>();
+        componentPointer.Init(componentGO, nullLocation, nullLocation);
+        draggedComponentPointer = componentPointer;
     }
 
     void HandleSelectionSlotPointerUp(GameObject componentGO)
     {
         Debug.Log("SelectionSlot Mouse Up");
-        if (draggedComponent == null) return;
+        if (draggedComponentPointer == null) return;
         Vector2Int targetAnchor = currentHoveredSlotCoords.Value;
-        if (motherboardGrid.PlaceComponentEverywhere(draggedComponent, targetAnchor))
+        if (motherboardGrid.PlaceComponentEverywhere(draggedComponentPointer.componentController, targetAnchor))
         {
             Debug.Log($"Component successfully placed at ({targetAnchor.x}, {targetAnchor.y})");
             // componentSelectionUIManager.ClearMenu();
         }
-        draggedComponent = null;
+        draggedComponentPointer = null;
         dragOffset = new Vector2Int(0, 0);
     }
 
