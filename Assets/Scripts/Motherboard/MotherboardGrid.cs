@@ -49,7 +49,15 @@ public class MotherboardGrid : MonoBehaviour
         Debug.Log(GridString());
     }
 
-    public bool AddComponentEverywhere(GameObject componentGO, Vector2Int position)
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            print(GridString());
+        }
+    }
+
+    public bool PlaceComponentEverywhere(GameObject componentGO, Vector2Int position)
     {
         GameObject componentGOInstance = Instantiate(componentGO);
         // Backend and UI
@@ -115,7 +123,40 @@ public class MotherboardGrid : MonoBehaviour
         return output;
     }
 
-    bool CanPlaceComponent(ComponentInstance componentGO, Vector2Int position)
+    public bool MoveComponent(GameObject componentGO, Vector2Int newPosition)
+    {
+        ComponentInstance componentInstance = componentGO.GetComponent<ComponentInstance>();
+        int componentRows = componentInstance.UIData.shape.Count;
+        int componentCols = componentInstance.UIData.shape[0].cols.Count;
+        List<ComponentShapeRow> componentShape = componentInstance.UIData.shape;
+        Vector2Int oldPosition = componentInstance.anchorPosition;
+
+        // Removing each segment from grid 
+        for (int row = 0; row < componentRows; row++)
+        {
+            for (int col = 0; col < componentCols; col++)
+            {
+                if (componentShape[row].cols[col])
+                {
+                    Vector2Int newPos = oldPosition + new Vector2Int(row, col);
+                    grid[newPos.x, newPos.y] = null;
+                }
+            }
+        }
+
+        // Place in UI
+        gridUIManager.PlaceComponentUI(componentInstance.UIData, gridCoords: newPosition);
+
+        // Save in gridComponentAnchors
+        gridComponentAnchors.Add(newPosition);
+
+        // RemoveComponentEverywhere(componentGO, componentInstance.gridPosition);
+        // PlaceComponentEverywhere(componentGO, newPosition);
+        print(GridString());
+        return true;
+    }
+
+    public bool CanPlaceComponent(GameObject componentGO, Vector2Int position)
     // returns True if the passed component can be placed in the passed location, False otherwise
     {
         // for segment in component_shape
@@ -149,8 +190,12 @@ public class MotherboardGrid : MonoBehaviour
                     // If spot is taken by another component
                     if (grid[newPos.x, newPos.y] is not null)
                     {
-                        Debug.Log($"Segment blocked by another component at [{newPos.x}, {newPos.y}].");
-                        return false;
+                        // Check to see if new spot could safely overlap with old one
+                        if (grid[newPos.x, newPos.y] != componentGO)
+                        {
+                            Debug.Log($"Segment blocked by another component at [{newPos.x}, {newPos.y}].");
+                            return false;
+                        }
                     }
                 }
             }
@@ -167,11 +212,12 @@ public class MotherboardGrid : MonoBehaviour
         int componentRows = component.UIData.shape.Count;
         int componentCols = component.UIData.shape[0].cols.Count;
 
-        if (!CanPlaceComponent(component, position))
+        if (!CanPlaceComponent(componentGO, position))
         {
             Debug.LogError($"Cannot place component at position {position}.");
             return false;
         }
+        component.gridPosition = position;
         component.anchorPosition = position;
         
         for (int row = 0; row < componentRows; row++)

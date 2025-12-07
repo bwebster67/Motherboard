@@ -97,7 +97,7 @@ public class GridUIManager : MonoBehaviour
             {
                 if (componentShape[row].cols[col])
                 {
-                    GridSlot gridSlot = gridUISlots[componentInstance.anchorPosition.x, componentInstance.anchorPosition.y].GetComponent<GridSlot>();
+                    GridSlot gridSlot = gridUISlots[componentInstance.gridPosition.x, componentInstance.gridPosition.y].GetComponent<GridSlot>();
                     if (gridSlot.gridComponentUI != null)
                     {
                         Destroy(gridSlot.gridComponentUI);

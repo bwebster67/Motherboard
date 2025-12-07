@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelConfig
   waves:
   - segmentName: Wave1
-    duration: 5
-    spawnRate: 0.5
+    duration: 60
+    spawnRate: 5
     enemyTags:
     - Bug
   - segmentName: Wave2

@@ -40,7 +40,6 @@ public class GridDragManager : MonoBehaviour
     void StartDrag(Vector2Int gridCoords)
     {
         GameObject componentGO = motherboardGrid.grid[gridCoords.x, gridCoords.y];
-        ComponentInstance componentInstance = componentGO.GetComponent<ComponentInstance>();
         
         if (componentGO == null)
         {
@@ -48,38 +47,39 @@ public class GridDragManager : MonoBehaviour
             return;
         }
 
+        ComponentInstance componentInstance = componentGO.GetComponent<ComponentInstance>();
         // instead of this, call to GridUIManager to disable the UI, unless drag fails
         // motherboardGrid.RemoveComponentEverywhere(componentGO, componentInstance.anchorPosition);
-        draggedComponentFormerAnchor = componentInstance.anchorPosition;
+        // draggedComponentFormerAnchor = componentInstance.anchorPosition;
         dragOffset = gridCoords - componentInstance.anchorPosition;
         draggedComponent = componentGO;
     }
 
-    void StopDrag(Vector2Int gridCoords)
+    void StopDrag()
     {
+        // If nothing is being dragged, stop
         if (draggedComponent == null) return;
 
+        // If dropping outside of a valid slot, reset component and stop
         if (currentHoveredSlotCoords == null)
         {
-            // Component was dropped outside of the grid, do not place
             Debug.Log("Component dropped out of grid.");
-            motherboardGrid.AddComponentEverywhere(draggedComponent, gridCoords - dragOffset);
             draggedComponent = null;
             dragOffset = new Vector2Int(0, 0);
             return;
         }
 
+        // If being placed on a valid slot, try to place
         Vector2Int targetAnchor = currentHoveredSlotCoords.Value - dragOffset;
-        Debug.Log($"targetAnchor: ({targetAnchor.x}, {targetAnchor.y}) = gridCoords ({gridCoords.x}, {gridCoords.y}) - dragOffset ({dragOffset.x}, {dragOffset.y})");
-        if (motherboardGrid.AddComponentEverywhere(draggedComponent, targetAnchor))
+        Debug.Log($"targetAnchor: ({targetAnchor.x}, {targetAnchor.y}) = currentHoveredSlotCoords ({currentHoveredSlotCoords.Value.x}, {currentHoveredSlotCoords.Value.y}) - dragOffset ({dragOffset.x}, {dragOffset.y})");
+        // If can place in this slot 
+        if (motherboardGrid.CanPlaceComponent(draggedComponent, targetAnchor))
         {
-            Debug.Log($"Component successfully placed at ({targetAnchor.x}, {targetAnchor.y})");
+            // place component and remove it from the old spot
+            motherboardGrid.MoveComponent(draggedComponent, targetAnchor);
+            Debug.Log($"Component successfully moved to ({targetAnchor.x}, {targetAnchor.y})");
             // Remove component from old spot.
-            motherboardGrid.RemoveComponentEverywhere(draggedComponent, draggedComponentFormerAnchor.Value);
-        }
-        else
-        {
-            // motherboardGrid.AddComponentEverywhere(draggedComponent, gridCoords - dragOffset);
+            // motherboardGrid.RemoveComponentEverywhere(draggedComponent, draggedComponentFormerAnchor.Value);
         }
         draggedComponent = null;
         dragOffset = new Vector2Int(0, 0);
@@ -94,7 +94,7 @@ public class GridDragManager : MonoBehaviour
     void HandleGridSlotPointerUp(Vector2Int gridCoords, PointerEventData pointerEventData)
     {
         Debug.Log($"Mouse up on slot ({gridCoords.x}, {gridCoords.y})");
-        StopDrag(gridCoords);
+        StopDrag();
     }
 
     void HandleGridSlotPointerEnter(Vector2Int gridCoords, PointerEventData pointerEventData)
@@ -120,7 +120,7 @@ public class GridDragManager : MonoBehaviour
         Debug.Log("SelectionSlot Mouse Up");
         if (draggedComponent == null) return;
         Vector2Int targetAnchor = currentHoveredSlotCoords.Value;
-        if (motherboardGrid.AddComponentEverywhere(draggedComponent, targetAnchor))
+        if (motherboardGrid.PlaceComponentEverywhere(draggedComponent, targetAnchor))
         {
             Debug.Log($"Component successfully placed at ({targetAnchor.x}, {targetAnchor.y})");
             // componentSelectionUIManager.ClearMenu();
