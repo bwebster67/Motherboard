@@ -40,8 +40,8 @@ public class MotherboardGrid : MonoBehaviour
         // I added gridComponentAnchors, but with PlayerComponentManager that might not be necessary right now?
         // componentFactory.GetComponentChoices();
 
-        // GameObject startingComponent = componentFactory.GetComponent(0);
-        // AddComponentEverywhere(startingComponent, new Vector2Int(0, 0));
+        GameObject startingComponent = componentFactory.GetComponent(0);
+        PlaceComponentEverywhere(startingComponent, new Vector2Int(0, 0));
 
         ReloadMotherboard();
 

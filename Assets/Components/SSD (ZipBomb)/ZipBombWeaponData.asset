@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ZipBombWeaponData
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   projectilePrefab: {fileID: 5838545723338106958, guid: 6ab0f2938cb522349bd7cb1884f53940, type: 3}
-  damage: 6
+  damage: 3
   speed: 4
   cooldownDuration: 6
   pierce: 0

@@ -6,7 +6,7 @@ public class PlayerLevelManager : MonoBehaviour
     public System.Action<int> OnLevelUp;
     public int currentLevel = 1;
     public float playerExp = 0;
-    public float nextLevelThreshold = 21;
+    public float nextLevelThreshold = 10;
 
     public void Awake()
     {
@@ -15,7 +15,7 @@ public class PlayerLevelManager : MonoBehaviour
 
     public void TriggerLevelUp()
     {
-        nextLevelThreshold += nextLevelThreshold;
+        nextLevelThreshold += nextLevelThreshold/2;
         playerExp = 0;
         OnLevelUp.Invoke(currentLevel);
         currentLevel += 1;

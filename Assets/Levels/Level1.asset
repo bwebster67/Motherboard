@@ -15,21 +15,31 @@ MonoBehaviour:
   waves:
   - segmentName: Wave1
     duration: 10
-    spawnRate: 3
+    spawnRate: 2
     enemyTags:
     - Bug
   - segmentName: Wave2
     duration: 10
-    spawnRate: 2
+    spawnRate: 1
     enemyTags:
     - Bug
   - segmentName: Wave3
-    duration: 20
-    spawnRate: 1
+    duration: 10
+    spawnRate: 0.75
+    enemyTags:
+    - Bug
+  - segmentName: Wave4
+    duration: 40
+    spawnRate: 0.5
     enemyTags:
     - Bug
   - segmentName: Wave4
     duration: 60
-    spawnRate: 0.5
+    spawnRate: 0.125
+    enemyTags:
+    - Bug
+  - segmentName: Wave5
+    duration: 60
+    spawnRate: 0.05
     enemyTags:
     - Bug

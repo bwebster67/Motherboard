@@ -34,7 +34,7 @@ public class ByteBlastComponent : WeaponComponentInstance
             {
                 break; 
             }
-            if (Vector2.Distance(target.position, transform.position) > 25)
+            if (Vector2.Distance(target.position, transform.position) > 20)
             {
                 break;
             }
