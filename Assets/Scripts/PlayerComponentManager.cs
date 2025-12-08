@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class PlayerComponentManager : MonoBehaviour
 {
@@ -8,6 +9,14 @@ public class PlayerComponentManager : MonoBehaviour
     // Context
     public EnemySpawnManager enemySpawnManager;
     public GameObject player;
+
+    // 
+    //
+    // temp to make ram do something
+    // 
+    public int ramProjectileBonus = 0;
+    // 
+    // 
 
     void Awake()
     {
@@ -29,13 +38,27 @@ public class PlayerComponentManager : MonoBehaviour
     public bool AddWeapon(GameObject weaponController)
     {
         // 
-        // must take in an INSTANCE of the GO, not just the prefab. I think.. 
+        //
+        // temp to make ram do something
         // 
-        weaponController.transform.position = transform.position;
-        weaponController.transform.rotation = Quaternion.identity;
-        weaponController.transform.parent = transform;
+        if (weaponController.GetComponent<WeaponComponentInstance>().UIData.name == "Ram")
+        {
+            // add projectile to all weapons
+            //  
+            ramProjectileBonus += 1;
+        // 
+        // 
+        }
+        else
+        {
+            weaponController.transform.position = transform.position;
+            weaponController.transform.rotation = Quaternion.identity;
+            weaponController.transform.parent = transform;
 
-        activeComponentControllers.Add(weaponController);
+            activeComponentControllers.Add(weaponController);
+        }
+
+
         return true;
     }
     

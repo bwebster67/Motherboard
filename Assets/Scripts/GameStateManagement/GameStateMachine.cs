@@ -7,6 +7,7 @@ public class GameStateMachine : MonoBehaviour
     public Canvas motherboardCanvas;
     public MotherboardGrid motherboardGrid;
     public ComponentSelectionUIManager componentSelectionUIManager;
+    public static bool debug = false; // when true, enables debug keybindings
 
     void Awake()
     {

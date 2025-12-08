@@ -33057,6 +33057,7 @@ MonoBehaviour:
   activeComponentControllers: []
   enemySpawnManager: {fileID: 1533230767}
   player: {fileID: 510457815}
+  ramProjectileBonus: 0
 --- !u!1 &1152955572
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,10 +11,12 @@ public class GridDragManager : MonoBehaviour
 
     // Context
     MotherboardGrid motherboardGrid;
+    ComponentSelectionUIManager componentSelectionUIManager;
 
     public void Awake()
     {
-        if (motherboardGrid == null) motherboardGrid = Object.FindAnyObjectByType<MotherboardGrid>();
+        if (motherboardGrid == null) motherboardGrid = FindAnyObjectByType<MotherboardGrid>();
+        if (componentSelectionUIManager == null) componentSelectionUIManager = FindAnyObjectByType<ComponentSelectionUIManager>();
     }
 
     public void OnEnable()
@@ -126,7 +128,7 @@ public class GridDragManager : MonoBehaviour
         if (motherboardGrid.PlaceComponentEverywhere(draggedComponentPointer.componentController, targetAnchor))
         {
             Debug.Log($"Component successfully placed at ({targetAnchor.x}, {targetAnchor.y})");
-            // componentSelectionUIManager.ClearMenu();
+            componentSelectionUIManager.ClearMenu();
         }
         draggedComponentPointer = null;
         dragOffset = new Vector2Int(0, 0);

@@ -16,6 +16,14 @@ public class WeaponComponentInstance : ComponentInstance
     // Pooling 
     public ProjectilePool projectilePool;
 
+
+    public void OnEnable()
+    {
+        // TEMP FOR RAM TO WORK
+        instanceProjectileCount = weaponData.projectileCount + playerComponentManager.ramProjectileBonus;
+    }    
+
+
     protected override void Start()
     {
         base.Start();
@@ -25,7 +33,7 @@ public class WeaponComponentInstance : ComponentInstance
         instanceDamage = weaponData.damage;
         instanceSpeed = weaponData.speed;
         instancePierce = weaponData.pierce;
-        instanceProjectileCount = weaponData.projectileCount;
+        instanceProjectileCount = weaponData.projectileCount + playerComponentManager.ramProjectileBonus;
 
         projectilePool = gameObject.AddComponent<ProjectilePool>();
         projectilePool.Init(weaponData.projectilePrefab, weaponData);

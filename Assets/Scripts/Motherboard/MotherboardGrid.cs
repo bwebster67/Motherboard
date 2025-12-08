@@ -51,16 +51,19 @@ public class MotherboardGrid : MonoBehaviour
     void Update()
     // DEBUGGING
     {
-        if (Input.GetKeyDown(KeyCode.G))
+        if (GameStateMachine.debug) 
         {
-            print(GridString());
-            string anchors = "gridComponentAnchors: ";
-            foreach (Vector2Int anchor in gridComponentAnchors)
+            if (Input.GetKeyDown(KeyCode.G))
             {
-                anchors += $"{anchor}, ";
-                // print(anchor.ToString());
+                print(GridString());
+                string anchors = "gridComponentAnchors: ";
+                foreach (Vector2Int anchor in gridComponentAnchors)
+                {
+                    anchors += $"{anchor}, ";
+                    // print(anchor.ToString());
+                }
+                print(anchors);
             }
-            print(anchors);
         }
     }
 
@@ -104,7 +107,6 @@ public class MotherboardGrid : MonoBehaviour
             {
                 componentPointer.componentController.gameObject.SetActive(true);
             }
-
         }
     }
 
@@ -260,6 +262,22 @@ public class MotherboardGrid : MonoBehaviour
 
         // Save in gridComponentAnchors
         gridComponentAnchors.Add(position);
+
+
+        // 
+        // temp to make ram do something
+        // 
+        if (componentInstance.GetComponent<WeaponComponentInstance>().UIData.componentName == "Ram")
+        {
+            // add projectile to all weapons
+            //  
+            playerComponentManager.ramProjectileBonus += 1;
+        //
+        //  
+        }
+        // 
+        // 
+
 
         // Add to PlayerComponentManager
         playerComponentManager.activeComponentControllers.Add(componentController);

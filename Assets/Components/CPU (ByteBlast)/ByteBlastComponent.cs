@@ -34,6 +34,10 @@ public class ByteBlastComponent : WeaponComponentInstance
             {
                 break; 
             }
+            if (Vector2.Distance(target.position, transform.position) > 25)
+            {
+                break;
+            }
             velocityVector = (target.transform.position - playerTransform.position).normalized * instanceSpeed;
 
             for (int j = 0; j < 8; j++)

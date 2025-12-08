@@ -44,7 +44,6 @@ public class GridUIManager : MonoBehaviour
     }
 
 
-
     void GenerateGrid()
     // Fills the grid with empty slots
     {

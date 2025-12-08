@@ -73,12 +73,13 @@ public abstract class PlayerProjectile : MonoBehaviour
 
     protected virtual void OnEnemyHit(Collider2D collider2D)
     {
-        Enemy enemy = collider2D.GetComponent<Enemy>();
         Debug.Log($"Collided with {collider2D.name}");
-        HandlePierces();
+        Enemy enemy = collider2D.GetComponent<Enemy>();
+        DamageEnemy(enemy);
+        HandlePierce();
     }
 
-    protected virtual void HandlePierces()
+    protected virtual void HandlePierce()
     {
         if (currentPiercesLeft == 0)
         {

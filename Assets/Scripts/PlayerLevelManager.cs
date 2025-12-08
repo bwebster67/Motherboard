@@ -21,6 +21,7 @@ public class PlayerLevelManager : MonoBehaviour
         currentLevel += 1;
         Debug.Log($"Level-up! New Level: {currentLevel}");
     }
+
     public void GainExp(float expValue)
     {
         playerExp += expValue;
@@ -33,10 +34,12 @@ public class PlayerLevelManager : MonoBehaviour
 
     void Update()
     {
-        // testing only
-        if (Input.GetKeyDown(KeyCode.L))
+        if (GameStateMachine.debug) 
         {
-            TriggerLevelUp();
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                TriggerLevelUp();
+            }
         }
 
     }

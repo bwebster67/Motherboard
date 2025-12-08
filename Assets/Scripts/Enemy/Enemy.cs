@@ -15,7 +15,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     EnemySpawnManager enemySpawnManager;
 
     // Stats
-    private float currentHealth;
+    public float currentHealth;
 
     protected virtual void Awake()
     {
@@ -48,9 +48,14 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     protected virtual void Die()
     {
         PlayerLevelManager.Instance.GainExp(enemyData.expValue);
-        enemySpawnManager.activeEnemies.Remove(transform);
         ReturnToPool();
         Debug.Log("Enemy Died");
+    }
+
+    public virtual void Reset()
+    {
+        enemySpawnManager.activeEnemies.Remove(transform);
+        currentHealth = enemyData.baseHealth;
     }
 
     public void SetPool(IObjectPool<GameObject> pool) {
@@ -58,6 +63,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     }
 
     public void ReturnToPool() {
+        Reset();
         if (_myPool != null) {
             _myPool.Release(this.gameObject);
         } else {
