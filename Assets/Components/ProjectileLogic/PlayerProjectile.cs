@@ -6,6 +6,9 @@ public abstract class PlayerProjectile : MonoBehaviour
     // Reference to the pool so the bullet can return itself
     private ProjectilePool _pool; 
     private Transform _player;
+    public ParticleSystem onHitEffect;
+    public SpriteRenderer myRenderer; 
+    public Collider2D myCollider; 
     private WeaponData _weaponData;
     private float currentDamage;
     int currentPiercesLeft;
@@ -23,7 +26,6 @@ public abstract class PlayerProjectile : MonoBehaviour
     }
     protected virtual void Update()
     {
-
     }
 
     protected virtual void OnEnable()
@@ -50,25 +52,43 @@ public abstract class PlayerProjectile : MonoBehaviour
         transform.position = _player.transform.position;
         transform.rotation = Quaternion.identity;
 
+        if (myRenderer != null) myRenderer.enabled = true;
+        if (myCollider != null) myCollider.enabled = true;
+
         currentDamage = _weaponData.damage;
         currentPiercesLeft = _weaponData.pierce;
     }
-    
+
     protected virtual void OnTriggerEnter2D(Collider2D collider2D)
     {
         if (collider2D.gameObject.CompareTag("Enemy"))
         {
-            collider2D.GetComponent<Enemy>().TakeDamage(currentDamage);
-            Debug.Log($"Collided with {collider2D.name}");
-            if (currentPiercesLeft == 0)
-            {
-                Deactivate();
-            }
-            else
-            {
-                currentPiercesLeft -= 1;
-            }
+            OnEnemyHit(collider2D);
         }
-        
     }
+    protected virtual void DamageEnemy(Enemy enemy)
+    {
+        enemy.TakeDamage(currentDamage);
+    }
+
+    protected virtual void OnEnemyHit(Collider2D collider2D)
+    {
+        Enemy enemy = collider2D.GetComponent<Enemy>();
+        Debug.Log($"Collided with {collider2D.name}");
+        HandlePierces();
+    }
+
+    protected virtual void HandlePierces()
+    {
+        if (currentPiercesLeft == 0)
+        {
+            Deactivate();
+        }
+        else
+        {
+            currentPiercesLeft -= 1;
+        }
+    }
+
+    
 }

@@ -32994,7 +32994,7 @@ MonoBehaviour:
   componentPrefabs:
   - {fileID: 5106084600261175665, guid: d95c739170750c14eae5de613c6b6f98, type: 3}
   - {fileID: 5106084600261175665, guid: dd19f956c7f62a842bdbc60e8ea8f509, type: 3}
-  - {fileID: 5106084600261175665, guid: d95c739170750c14eae5de613c6b6f98, type: 3}
+  - {fileID: 5106084600261175665, guid: e3365f422c15f094ca985068146abe73, type: 3}
 --- !u!4 &1024981454
 Transform:
   m_ObjectHideFlags: 0
@@ -33054,7 +33054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b37b2d7f5c31ff408d6d88f576c1ede, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  activeComponentControllerPrefabs: []
+  activeComponentControllers: []
   enemySpawnManager: {fileID: 1533230767}
   player: {fileID: 510457815}
 --- !u!1 &1152955572
@@ -33247,7 +33247,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1533230766
 Transform:
   m_ObjectHideFlags: 0

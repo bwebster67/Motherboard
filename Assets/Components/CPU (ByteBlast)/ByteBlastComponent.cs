@@ -8,9 +8,6 @@ public class ByteBlastComponent : WeaponComponentInstance
     override protected void Start()
     {
         base.Start();  
-        // Will be stored in ScriptableObject
-        // weaponData.cooldownDuration = 3f;
-
     }
     
     override protected void Update()

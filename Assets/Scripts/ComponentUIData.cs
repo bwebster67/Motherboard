@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
 
-[CreateAssetMenu(fileName = "ComponentData", menuName = "Scriptable Objects/ComponentData")]
+[CreateAssetMenu(fileName = "ComponentData", menuName = "Scriptable Objects/ComponentUIData")]
 public class ComponentUIData : ScriptableObject
 {
     [SerializeField]

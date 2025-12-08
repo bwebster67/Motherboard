@@ -7,6 +7,7 @@ public class MotherboardState : GameState
         base.EnterState();
         context.motherboardCanvas.gameObject.SetActive(true);
         context.componentSelectionUIManager.PopulateMenuWithComponents();
+        Time.timeScale = 0;
     }
     public override void ExitState()
     {
@@ -14,6 +15,7 @@ public class MotherboardState : GameState
         context.motherboardGrid.ReloadMotherboard();
         context.motherboardCanvas.gameObject.SetActive(false);
         context.componentSelectionUIManager.ClearMenu();
+        Time.timeScale = 1;
     }
     public override void Tick()
     {

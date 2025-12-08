@@ -17,4 +17,4 @@ MonoBehaviour:
   baseHealth: 6
   baseCollisionDamage: 1
   baseAttackDamage: 1
-  expValue: 3
+  expValue: 1
