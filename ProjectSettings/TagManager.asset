@@ -55,6 +55,9 @@ TagManager:
   - name: PlayerProjectiles
     uniqueID: 942702135
     locked: 0
+  - name: DamagePopups
+    uniqueID: 3412524445
+    locked: 0
   - name: Motherboard
     uniqueID: 1338807715
     locked: 0

@@ -52,6 +52,7 @@
     <Compile Include="Assets\Components\WeaponData.cs" />
     <Compile Include="Assets\Scripts\ComponentFactory.cs" />
     <Compile Include="Assets\Components\ComponentPointer.cs" />
+    <Compile Include="Assets\Scripts\DamagePopups\DamagePopup.cs" />
     <Compile Include="Assets\Scripts\ComponentSelectionUIManager.cs" />
     <Compile Include="Assets\Scripts\PlayerLevelManager.cs" />
     <Compile Include="Assets\Scripts\MainMenu\MainMenuController.cs" />
@@ -62,11 +63,13 @@
     <Compile Include="Assets\Scripts\GameStateManagement\MotherboardState.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemySO.cs" />
     <Compile Include="Assets\Components\ComponentInstance.cs" />
+    <Compile Include="Assets\Scripts\GenericPool\GenericPooledObject.cs" />
     <Compile Include="Assets\Scripts\Motherboard\GridUIManager.cs" />
     <Compile Include="Assets\Scripts\PlayerComponentManager.cs" />
     <Compile Include="Assets\Components\CPU (ByteBlast)\ByteBlastComponent.cs" />
     <Compile Include="Assets\Scripts\GameStateManagement\GameState.cs" />
     <Compile Include="Assets\Components\SSD (ZipBomb)\ZipBombProjectile.cs" />
+    <Compile Include="Assets\Scripts\DamagePopups\DamagePopupManager.cs" />
     <Compile Include="Assets\Scripts\MainMenu\StartButton.cs" />
     <Compile Include="Assets\Scripts\ComponentShapeRow.cs" />
     <Compile Include="Assets\Scripts\GameStateManagement\GameOverState.cs" />
@@ -79,6 +82,7 @@
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Components\CPU (ByteBlast)\ByteBlastProjectile.cs" />
     <Compile Include="Assets\Components\ProjectileLogic\ProjectilePool.cs" />
+    <Compile Include="Assets\Scripts\GenericPool\GenericObjectPool.cs" />
     <Compile Include="Assets\Scripts\SelectionComponent.cs" />
     <Compile Include="Assets\Scripts\EnemyWaveManagement\WaveSegment.cs" />
     <Compile Include="Assets\Components\ProjectileLogic\PlayerProjectile.cs" />

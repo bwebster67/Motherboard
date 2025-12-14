@@ -19,13 +19,13 @@ MonoBehaviour:
     enemyTags:
     - Bug
   - segmentName: Wave2
-    duration: 10
-    spawnRate: 1
+    duration: 15
+    spawnRate: 1.5
     enemyTags:
     - Bug
   - segmentName: Wave3
-    duration: 10
-    spawnRate: 0.75
+    duration: 15
+    spawnRate: 1
     enemyTags:
     - Bug
   - segmentName: Wave4

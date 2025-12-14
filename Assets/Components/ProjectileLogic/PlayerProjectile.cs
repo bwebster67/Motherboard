@@ -69,6 +69,7 @@ public abstract class PlayerProjectile : MonoBehaviour
     protected virtual void DamageEnemy(Enemy enemy)
     {
         enemy.TakeDamage(currentDamage);
+        DamagePopupManager.SpawnDamagePopup(this.transform.position, currentDamage);
     }
 
     protected virtual void OnEnemyHit(Collider2D collider2D)
