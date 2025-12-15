@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -10,8 +11,9 @@ public abstract class PlayerProjectile : MonoBehaviour
     public SpriteRenderer myRenderer; 
     public Collider2D myCollider; 
     private WeaponData _weaponData;
-    private float currentDamage;
-    int currentPiercesLeft;
+    protected float currentDamage;
+    protected float currentKnockbackStrength;
+    protected int currentPiercesLeft;
 
     public virtual void Awake()
     {
@@ -23,6 +25,7 @@ public abstract class PlayerProjectile : MonoBehaviour
         _weaponData = weaponData;
         currentDamage = weaponData.damage;
         currentPiercesLeft = weaponData.pierce;
+        currentKnockbackStrength = weaponData.knockbackStrength;
     }
     protected virtual void Update()
     {
@@ -57,6 +60,7 @@ public abstract class PlayerProjectile : MonoBehaviour
 
         currentDamage = _weaponData.damage;
         currentPiercesLeft = _weaponData.pierce;
+        currentKnockbackStrength = _weaponData.knockbackStrength;
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collider2D)
@@ -69,15 +73,23 @@ public abstract class PlayerProjectile : MonoBehaviour
     protected virtual void DamageEnemy(Enemy enemy)
     {
         enemy.TakeDamage(currentDamage);
-        DamagePopupManager.SpawnDamagePopup(this.transform.position, currentDamage);
+        DamagePopupManager.SpawnDamagePopup(enemy.transform.position, currentDamage);
+    }
+
+    protected void ApplyKnockback(Enemy enemy)
+    {
+        Vector2 knockbackDirection = (enemy.transform.position - transform.position).normalized;
+        enemy.rigidbody2D.AddForce(knockbackDirection * currentKnockbackStrength, ForceMode2D.Impulse);
     }
 
     protected virtual void OnEnemyHit(Collider2D collider2D)
     {
         Debug.Log($"Collided with {collider2D.name}");
         Enemy enemy = collider2D.GetComponent<Enemy>();
-        DamageEnemy(enemy);
+        enemy.Stun(0.25f);
         HandlePierce();
+        ApplyKnockback(enemy);
+        DamageEnemy(enemy);
     }
 
     protected virtual void HandlePierce()

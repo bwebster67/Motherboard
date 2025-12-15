@@ -46,6 +46,8 @@ public class ZipBombProjectile : PlayerProjectile
         {
             hitCollider.TryGetComponent(out Enemy enemyScript);
             if (enemyScript != null) {
+                enemyScript.Stun(0.25f);
+                ApplyKnockback(enemyScript);
                 DamageEnemy(enemyScript);
             }                
         }

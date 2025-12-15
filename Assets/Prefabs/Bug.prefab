@@ -108,6 +108,7 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: ef014534e172afe4da2b800add8c1935, type: 2}
   rigidbody2D: {fileID: 5824333571352711699}
   player: {fileID: 0}
+  currentHealth: 0
 --- !u!50 &5824333571352711699
 Rigidbody2D:
   serializedVersion: 5
@@ -179,5 +180,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 11.6, y: 6.19}
+  m_Size: {x: 10.6, y: 5.7}
   m_EdgeRadius: 0

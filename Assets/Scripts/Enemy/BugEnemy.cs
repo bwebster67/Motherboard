@@ -10,7 +10,6 @@ public class BugEnemy : Enemy, IEnemyMoveBehavior
     protected override void Update()
     {
         base.Update();
-        Move(rigidbody2D, player.transform, enemyData.baseMoveSpeed);
     }
 
     public override float TakeDamage(float amount)
@@ -23,7 +22,12 @@ public class BugEnemy : Enemy, IEnemyMoveBehavior
         base.Die();
     }
 
-    public void Move(Rigidbody2D rb, Transform target, float speed)
+    public override void Move()
+    {
+        BugMove(rigidbody2D, player.transform, enemyData.baseMoveSpeed);
+    }
+
+    public void BugMove(Rigidbody2D rb, Transform target, float speed)
     {
         if (target != null)
         {

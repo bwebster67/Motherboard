@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5810620637732181604
 RectTransform:
   m_ObjectHideFlags: 0
@@ -52,7 +52,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b7a70d7acc2fa049b26626ee5f456bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ByteBlastProjectile
+  onHitEffect: {fileID: 0}
+  myRenderer: {fileID: 0}
+  myCollider: {fileID: 0}
   textMeshPro: {fileID: 7136167259662563350}
+  velocityVector: {x: 0, y: 0, z: 0}
 --- !u!50 &8709357799721512715
 Rigidbody2D:
   serializedVersion: 5
@@ -124,7 +128,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.55, y: 0.75}
+  m_Size: {x: 0.36, y: 0.55}
   m_EdgeRadius: 0
 --- !u!23 &122988727813918875
 MeshRenderer:

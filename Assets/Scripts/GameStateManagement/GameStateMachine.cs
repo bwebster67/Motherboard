@@ -9,7 +9,7 @@ public class GameStateMachine : MonoBehaviour
     public ComponentSelectionUIManager componentSelectionUIManager;
     public Canvas gameOverMenu;
     public GameObject player;
-    public static bool debug = false; // when true, enables debug keybindings
+    public static bool debug = true; // when true, enables debug keybindings
 
     void Awake()
     {

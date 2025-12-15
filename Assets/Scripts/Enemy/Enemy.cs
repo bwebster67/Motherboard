@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.Scripting;
 using UnityEngine.Pool;
+using JetBrains.Annotations;
+using System.Collections;
 
 public abstract class Enemy : MonoBehaviour, IDamageable 
 {
     public EnemySO enemyData;
     public Rigidbody2D rigidbody2D;
     public GameObject player;
+    public bool stunned = false;
 
     // Pooling
     private IObjectPool<GameObject> _myPool;
@@ -32,7 +35,23 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 
     protected virtual void Update()
     {
+        if (!stunned) Move();
     }
+
+    public void Stun(float stunDuration)
+    {
+        StopCoroutine(nameof(StunCoroutine));
+        StartCoroutine(StunCoroutine(stunDuration));
+    }
+
+    private IEnumerator StunCoroutine(float stunDuration)
+    {
+        stunned = true;
+        yield return new WaitForSeconds(stunDuration);
+        stunned = false;
+    }
+
+    public abstract void Move();
     
     public virtual float TakeDamage(float amount)
     {
@@ -56,6 +75,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     {
         enemySpawnManager.activeEnemies.Remove(transform);
         currentHealth = enemyData.baseHealth;
+        stunned = false;
     }
 
     public void SetPool(IObjectPool<GameObject> pool) {
