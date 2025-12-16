@@ -16,5 +16,6 @@ MonoBehaviour:
   damage: 3
   speed: 4
   cooldownDuration: 6
+  knockbackStrength: 3
   pierce: 0
   projectileCount: 1
