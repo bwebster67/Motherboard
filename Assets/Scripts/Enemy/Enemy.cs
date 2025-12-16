@@ -10,6 +10,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     public Rigidbody2D rigidbody2D;
     public GameObject player;
     public bool stunned = false;
+    public float collisionDamageGraceTimeLeft = 0;
 
     // Pooling
     private IObjectPool<GameObject> _myPool;
@@ -36,6 +37,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     protected virtual void Update()
     {
         if (!stunned) Move();
+        if (collisionDamageGraceTimeLeft > 0) {collisionDamageGraceTimeLeft -= Time.deltaTime;}
     }
 
     public abstract void Move();
@@ -43,9 +45,12 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     // Contact Damage 
     public void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collisionDamageGraceTimeLeft > 0) {return;}
+
         if (collision.tag == "Player")
         {
             collision.GetComponent<PlayerHealth>().TakeDamage(enemyData.baseCollisionDamage);
+            collisionDamageGraceTimeLeft = 0.25f;
         }
     }
 
@@ -89,6 +94,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         enemySpawnManager.activeEnemies.Remove(transform);
         currentHealth = enemyData.baseHealth;
         stunned = false;
+        collisionDamageGraceTimeLeft = 0;
     }
 
     public void SetPool(IObjectPool<GameObject> pool) {

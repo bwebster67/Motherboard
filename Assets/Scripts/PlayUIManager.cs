@@ -30,10 +30,10 @@ public class PlayUIManager : MonoBehaviour
     }
     void Start()
     {
-        UpdateCurrentExp(playerLevelManager.playerExp);
         UpdateExpThreshold(playerLevelManager.nextLevelThreshold);
-        UpdateCurrentHealth(playerHealth.currentHealth);
+        UpdateCurrentExp(playerLevelManager.playerExp);
         UpdateMaxHealth(playerHealth.maxHealth);
+        UpdateCurrentHealth(playerHealth.currentHealth);
         Debug.Log($"maxHealth: {playerHealth.maxHealth}, currentHealth: {playerHealth.maxHealth}");
     }
 

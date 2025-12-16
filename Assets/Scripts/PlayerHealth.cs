@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
-    public float maxHealth;
-    public float currentHealth;
+    public float baseHealth;
+    public float maxHealth {get; private set;}
+    public float currentHealth {get; private set;}
     public System.Action OnPlayerDied;
     public System.Action<float> OnPlayerTakeDamage;
 
@@ -28,9 +29,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         return currentHealth;
     }
 
-    void Start()
+    void Awake()
     {
-        maxHealth = 10;
+        currentHealth = maxHealth = baseHealth;
     }
 
 }
