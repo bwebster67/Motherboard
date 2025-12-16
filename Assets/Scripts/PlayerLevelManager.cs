@@ -3,8 +3,8 @@ using UnityEngine;
 public class PlayerLevelManager : MonoBehaviour
 {
     public static PlayerLevelManager Instance { get; private set;}
-    public System.Action<int> OnLevelUp;
-    public System.Action<float, float> OnGainExp;
+    public System.Action<float> OnLevelUp;
+    public System.Action<float> OnGainExp;
     public int currentLevel = 1;
     public float playerExp = 0;
     public float nextLevelThreshold = 10;
@@ -32,7 +32,7 @@ public class PlayerLevelManager : MonoBehaviour
             TriggerLevelUp();
         }
 
-        OnGainExp.Invoke(playerExp, nextLevelThreshold);
+        OnGainExp.Invoke(playerExp);
     }
 
     void Update()

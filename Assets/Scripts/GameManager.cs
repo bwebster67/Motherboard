@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
         gameStateMachine.ChangeGameState(new PlayingState(gameStateMachine));
     }
 
-    void HandleLevelUp(int newLevel)
+    void HandleLevelUp(float nextLevelThreshold)
     {
         gameStateMachine.ChangeGameState(new MotherboardState(gameStateMachine));
     }

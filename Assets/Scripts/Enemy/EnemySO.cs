@@ -4,9 +4,9 @@ using UnityEngine;
 public class EnemySO : ScriptableObject
 {
     public GameObject prefab; // visuals
-    public float baseMoveSpeed;
-    public float baseHealth;
-    public float baseCollisionDamage;
-    public float baseAttackDamage;
-    public float expValue;
+    public float baseMoveSpeed = 2;
+    public float baseHealth = 10;
+    public float baseCollisionDamage = 1;
+    public float baseAttackDamage = 1;
+    public float expValue = 1;
 }

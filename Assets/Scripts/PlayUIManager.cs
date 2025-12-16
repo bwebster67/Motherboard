@@ -1,39 +1,61 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayUIManager : MonoBehaviour
 {
-    public GameObject expBarGO;
     public Slider expBarSlider;
+    public Slider healthBarSlider;
     public PlayerLevelManager playerLevelManager;
+    public PlayerHealth playerHealth;
+
 
     void OnEnable()
     {
         playerLevelManager.OnGainExp += HandleGainExp; 
+        playerLevelManager.OnLevelUp += HandleLevelUp; 
+        playerHealth.OnPlayerTakeDamage += HandlePlayerTakeDamage;
     }
     void OnDisable()
     {
         playerLevelManager.OnGainExp -= HandleGainExp; 
+        playerLevelManager.OnLevelUp -= HandleLevelUp; 
+        playerHealth.OnPlayerTakeDamage -= HandlePlayerTakeDamage;
     }
 
     void Awake()
     {
         if (playerLevelManager == null) playerLevelManager = FindAnyObjectByType<PlayerLevelManager>();
-        expBarSlider = expBarGO.GetComponent<Slider>();
+        if (playerHealth == null) playerHealth = FindAnyObjectByType<PlayerHealth>();
     }
-
     void Start()
     {
-        UpdateExpBar(playerLevelManager.playerExp, playerLevelManager.nextLevelThreshold);
+        UpdateCurrentExp(playerLevelManager.playerExp);
+        UpdateExpThreshold(playerLevelManager.nextLevelThreshold);
+        UpdateCurrentHealth(playerHealth.currentHealth);
+        UpdateMaxHealth(playerHealth.maxHealth);
+        Debug.Log($"maxHealth: {playerHealth.maxHealth}, currentHealth: {playerHealth.maxHealth}");
     }
 
-    private void UpdateExpBar(float currentExp, float nextLevelThreshold)
+
+    // Health Bar 
+    private void HandlePlayerTakeDamage(float currentHealth)
     {
-        expBarSlider.maxValue = nextLevelThreshold;
-        expBarSlider.value = currentExp;
+        UpdateCurrentHealth(currentHealth);
     }
-    private void HandleGainExp(float currentExp, float nextLevelThreshold)
+    private void UpdateCurrentHealth(float currentHealth) {healthBarSlider.value = currentHealth;}
+    private void UpdateMaxHealth(float maxHealth) {healthBarSlider.maxValue = maxHealth;}
+
+
+    // Exp Bar
+    private void HandleGainExp(float currentExp)
     {
-        UpdateExpBar(currentExp, nextLevelThreshold);
+        UpdateCurrentExp(currentExp);
     }
+    private void HandleLevelUp(float nextLevelThreshold)
+    {
+        UpdateExpThreshold(nextLevelThreshold);
+    }
+    private void UpdateCurrentExp(float currentExp) {expBarSlider.value = currentExp;}
+    private void UpdateExpThreshold(float nextLevelThreshold) {expBarSlider.maxValue = nextLevelThreshold;}
 }

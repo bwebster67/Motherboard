@@ -38,6 +38,29 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         if (!stunned) Move();
     }
 
+    public abstract void Move();
+
+    // Contact Damage 
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        {
+            collision.GetComponent<PlayerHealth>().TakeDamage(enemyData.baseCollisionDamage);
+        }
+    }
+
+    // Taking Damage and Stun
+    public virtual float TakeDamage(float amount)
+    {
+        currentHealth -= amount;
+        Debug.Log($"Enemy took {amount} damage and is now at {currentHealth} health.");
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+        return currentHealth;
+    }
+
     public void Stun(float stunDuration)
     {
         StopCoroutine(nameof(StunCoroutine));
@@ -51,19 +74,6 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         stunned = false;
     }
 
-    public abstract void Move();
-    
-    public virtual float TakeDamage(float amount)
-    {
-        currentHealth -= amount;
-        Debug.Log($"Enemy took {amount} damage and is now at {currentHealth} health.");
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
-        return currentHealth;
-    }
-
     protected virtual void Die()
     {
         PlayerLevelManager.Instance.GainExp(enemyData.expValue);
@@ -71,6 +81,9 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         Debug.Log("Enemy Died");
     }
 
+
+
+    // Pooling
     public virtual void Reset()
     {
         enemySpawnManager.activeEnemies.Remove(transform);

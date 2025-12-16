@@ -1,24 +1,36 @@
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, IDamageable
 {
+    public float maxHealth;
+    public float currentHealth;
     public System.Action OnPlayerDied;
-    void OnTriggerEnter2D(Collider2D collision)
+    public System.Action<float> OnPlayerTakeDamage;
+
+    // void OnTriggerEnter2D(Collider2D collision)
+    // {
+    //     if (collision.tag == "Enemy")
+    //     {
+    //         OnPlayerDied.Invoke();
+    //     }
+    // }
+    public float TakeDamage(float damage)
     {
-        if (collision.tag == "Enemy")
+        currentHealth -= damage; 
+
+        OnPlayerTakeDamage.Invoke(currentHealth);
+
+        if (currentHealth <= 0)
         {
             OnPlayerDied.Invoke();
         }
-    }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
+
+        return currentHealth;
     }
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-        
+        maxHealth = 10;
     }
+
 }
