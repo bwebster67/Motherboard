@@ -11,8 +11,8 @@ using UnityEngine.UI;
 
 public class GridUIManager : MonoBehaviour
 {
-    private int gridWidth = 6; // TEMP
-    private int gridHeight = 3; //TEMP
+    private int gridWidth;
+    private int gridHeight;
     public GameObject gridSlotPrefab;
     public Sprite emptyGridSlotSprite;
     public Sprite emptyGridSlotHoverSprite;
@@ -32,6 +32,8 @@ public class GridUIManager : MonoBehaviour
 
     void Awake()
     {
+        gridWidth = MotherboardGrid.gridWidth;
+        gridHeight = MotherboardGrid.gridHeight;
         gridUISlots = new GameObject[gridHeight, gridWidth];
         if (componentSelectionUIManager == null) componentSelectionUIManager = FindAnyObjectByType<ComponentSelectionUIManager>(); 
     }

@@ -58,6 +58,7 @@
     <Compile Include="Assets\Scripts\MainMenu\MainMenuController.cs" />
     <Compile Include="Assets\Scripts\Enemy\IEnemyMoveBehavior.cs" />
     <Compile Include="Assets\Scripts\PlayerHealth.cs" />
+    <Compile Include="Assets\Components\StatControl\Stat.cs" />
     <Compile Include="Assets\Scripts\EnemyDeathEffect\EnemyDeathEffectManager.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IHealable.cs" />
     <Compile Include="Assets\Scripts\EnemyWaveManagement\EnemyWaveManager.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Assets\Scripts\DamagePopups\DamagePopupManager.cs" />
     <Compile Include="Assets\Scripts\MainMenu\StartButton.cs" />
     <Compile Include="Assets\Scripts\ComponentShapeRow.cs" />
+    <Compile Include="Assets\Components\StatControl\WeaponStatPayload.cs" />
     <Compile Include="Assets\Scripts\EnemyDeathEffect\EnemyDeathEffect.cs" />
     <Compile Include="Assets\Scripts\GameStateManagement\GameOverState.cs" />
     <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />

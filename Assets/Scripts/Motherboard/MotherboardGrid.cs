@@ -11,8 +11,8 @@ public class MotherboardGrid : MonoBehaviour
     public ComponentPointer[,] grid;
     private List<Vector2Int> gridComponentAnchors;
     public GridUIManager gridUIManager;
-    public int gridWidth = 6;
-    public int gridHeight = 3;
+    public static int gridWidth = 10;
+    public static int gridHeight = 5;
     public ComponentFactory componentFactory;
     public PlayerComponentManager playerComponentManager;
 
