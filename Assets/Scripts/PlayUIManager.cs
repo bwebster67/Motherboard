@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayUIManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PlayUIManager : MonoBehaviour
     public Slider healthBarSlider;
     public PlayerLevelManager playerLevelManager;
     public PlayerHealth playerHealth;
+    public TextMeshProUGUI timerText;
 
 
     void OnEnable()

@@ -1,9 +1,11 @@
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameStateMachine : MonoBehaviour
 {
     GameState currentState = null;
+    public GameManager gameManager;
     public Canvas motherboardCanvas;
     public MotherboardGrid motherboardGrid;
     public ComponentSelectionUIManager componentSelectionUIManager;
@@ -13,6 +15,7 @@ public class GameStateMachine : MonoBehaviour
 
     void Awake()
     {
+        gameManager = FindAnyObjectByType<GameManager>();
         if (motherboardGrid == null) motherboardGrid = FindAnyObjectByType<MotherboardGrid>();
         if (componentSelectionUIManager == null) componentSelectionUIManager = FindAnyObjectByType<ComponentSelectionUIManager>();
         if (player == null) player = GameObject.FindGameObjectWithTag("Player");

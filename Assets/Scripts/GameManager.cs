@@ -8,12 +8,15 @@ public class GameManager : MonoBehaviour
     public GameStateMachine gameStateMachine;
     public PlayerLevelManager playerLevelManager;
     public MotherboardConfirmButton motherboardConfirmButton;
+    public PlayUIManager playUIManager;
+    public float timeElapsed = 0;
 
     void Awake()
     {
-        gameStateMachine = FindAnyObjectByType<GameStateMachine>();
-        playerLevelManager = FindAnyObjectByType<PlayerLevelManager>();
-        motherboardConfirmButton = FindAnyObjectByType<MotherboardConfirmButton>();
+        if (gameStateMachine == null) gameStateMachine = FindAnyObjectByType<GameStateMachine>();
+        if (playerLevelManager == null) playerLevelManager = FindAnyObjectByType<PlayerLevelManager>();
+        if (motherboardConfirmButton == null) motherboardConfirmButton = FindAnyObjectByType<MotherboardConfirmButton>();
+        if (playUIManager == null) playUIManager = FindAnyObjectByType<PlayUIManager>();
     }
     void OnEnable()
     {
