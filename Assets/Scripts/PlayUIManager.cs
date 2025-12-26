@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -56,6 +57,6 @@ public class PlayUIManager : MonoBehaviour
     {
         UpdateExpThreshold(nextLevelThreshold);
     }
-    private void UpdateCurrentExp(float currentExp) {expBarSlider.value = currentExp;}
+    private void UpdateCurrentExp(float currentExp) {expBarSlider.value = currentExp; Debug.Log($"expBarSlider.value: {expBarSlider.value}, expBarSlider.maxValue: {expBarSlider.maxValue}");}
     private void UpdateExpThreshold(float nextLevelThreshold) {expBarSlider.maxValue = nextLevelThreshold;}
 }

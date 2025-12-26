@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f624e3ec391bed49a638d28fcc8d71f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDeathEffect
-  particles: {fileID: 0}
+  particles: {fileID: 5255956915971294898}
 --- !u!198 &5255956915971294898
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4874,7 +4874,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 566394543
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0

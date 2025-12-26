@@ -18,7 +18,7 @@ public class PlayerLevelManager : MonoBehaviour
     {
         playerExp -= nextLevelThreshold;
         nextLevelThreshold += nextLevelThreshold/2;
-        OnLevelUp.Invoke(currentLevel);
+        OnLevelUp.Invoke(nextLevelThreshold);
         currentLevel += 1;
         Debug.Log($"Level-up! New Level: {currentLevel}");
     }
@@ -27,7 +27,7 @@ public class PlayerLevelManager : MonoBehaviour
     {
         playerExp += expValue;
 
-        if (playerExp > nextLevelThreshold)
+        if (playerExp >= nextLevelThreshold)
         {
             TriggerLevelUp();
         }
@@ -41,7 +41,7 @@ public class PlayerLevelManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
-                TriggerLevelUp();
+                GainExp(nextLevelThreshold - playerExp);
             }
         }
 
