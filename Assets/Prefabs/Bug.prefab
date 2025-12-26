@@ -108,7 +108,13 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: ef014534e172afe4da2b800add8c1935, type: 2}
   rigidbody2D: {fileID: 5824333571352711699}
   player: {fileID: 0}
+  stunned: 0
+  collisionDamageGraceTimeLeft: 0
   currentHealth: 0
+  spriteRenderer: {fileID: 4369065504616294901}
+  baseMaterial: {fileID: 0}
+  whiteFlashMaterial: {fileID: 2100000, guid: 94c8033e6cc1de54bb087259b4bf7df3, type: 2}
+  flashDuration: 0.1
 --- !u!50 &5824333571352711699
 Rigidbody2D:
   serializedVersion: 5

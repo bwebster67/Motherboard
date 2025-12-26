@@ -8,6 +8,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 {
     public EnemySO enemyData;
     public Rigidbody2D rigidbody2D;
+
     public GameObject player;
     public bool stunned = false;
     public float collisionDamageGraceTimeLeft = 0;
@@ -21,6 +22,12 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     // Stats
     public float currentHealth;
 
+    [Header("White Flash")] 
+    public SpriteRenderer spriteRenderer;
+    public Material baseMaterial;
+    public Material whiteFlashMaterial;
+    public float flashDuration = 0.1f;
+
     protected virtual void Awake()
     {
         enemySpawnManager = FindAnyObjectByType<EnemySpawnManager>();
@@ -30,6 +37,8 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     {
         if (player == null) player = GameObject.FindGameObjectWithTag("Player");
         if (rigidbody2D == null) rigidbody2D = GetComponent<Rigidbody2D>();
+        if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
+        baseMaterial = spriteRenderer.material;
 
         currentHealth = enemyData.baseHealth;
     }
@@ -57,6 +66,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     // Taking Damage and Stun
     public virtual float TakeDamage(float amount)
     {
+        WhiteFlash();
         currentHealth -= amount;
         Debug.Log($"Enemy took {amount} damage and is now at {currentHealth} health.");
         if (currentHealth <= 0)
@@ -79,6 +89,18 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         stunned = false;
     }
 
+    public void WhiteFlash()
+    {
+        StartCoroutine(WhiteFlashCoroutine());
+    }
+
+    public IEnumerator WhiteFlashCoroutine()
+    {
+        spriteRenderer.material = whiteFlashMaterial; 
+        yield return new WaitForSeconds(flashDuration); 
+        spriteRenderer.material = baseMaterial;
+    }
+
     protected virtual void Die()
     {
         PlayerLevelManager.Instance.GainExp(enemyData.expValue);
@@ -96,6 +118,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         currentHealth = enemyData.baseHealth;
         stunned = false;
         collisionDamageGraceTimeLeft = 0;
+        spriteRenderer.material = baseMaterial;
     }
 
     public void SetPool(IObjectPool<GameObject> pool) {
